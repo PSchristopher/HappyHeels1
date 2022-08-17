@@ -1,0 +1,146 @@
+<!doctype html>
+<html class="no-js" lang="">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>FootWear</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
+  <meta content="Themesdesign" name="author" />
+
+
+  {{#if user}}
+  <!-- Place favicon.ico in the root directory -->
+  <link rel="shortcut icon" type="image/x-icon" href="/img/favicon.png">
+  <!-- App favicon -->
+  <link rel="shortcut icon" href="/admin/images/favicon.ico">
+
+
+
+  <!-- MATERIAL DESIGN ICONIC FONT -->
+  <link rel="stylesheet" href="/fonts/material-design-iconic-font/css/material-design-iconic-font.min.css">
+
+
+  <!-- STYLE login/signup CSS -->
+  <link rel="stylesheet" href="/stylesheets/userlogin/style.css">
+
+  <!-- CSS here -->
+  <link rel="stylesheet" href="/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/css/animate.min.css">
+  <link rel="stylesheet" href="/css/magnific-popup.css">
+  <link rel="stylesheet" href="/css/fontawesome-all.min.css">
+  <link rel="stylesheet" href="/css/jquery.mCustomScrollbar.min.css">
+  <link rel="stylesheet" href="/css/bootstrap-datepicker.min.css">
+  <link rel="stylesheet" href="/css/swiper-bundle.min.css">
+  <link rel="stylesheet" href="/css/jquery-ui.min.css">
+  <link rel="stylesheet" href="/css/nice-select.css">
+  <link rel="stylesheet" href="/css/jarallax.css">
+  <link rel="stylesheet" href="/css/flaticon.css">
+
+  <link rel="stylesheet" href="/css/slick.css">
+  <link rel="stylesheet" href="/css/default.css">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/responsive.css">
+  {{else}}
+  <link rel="shortcut icon" href="/admin/images/favicon.ico">
+
+  <link href="/admin/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+  <link href="/admin/css/icons.css" rel="stylesheet" type="text/css">
+  <link href="/admin/css/style.css" rel="stylesheet" type="text/css">
+
+  <!-- DataTables -->
+  <link href="/admin/plugins/datatables/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+  <link href="/admin/plugins/datatables/buttons.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+  <!-- Responsive datatable examples -->
+  <link href="/admin/plugins/datatables/responsive.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+
+  <link href="/admin/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+  <link href="/admin/css/icons.css" rel="stylesheet" type="text/css">
+  <link href="/admin/css/style.css" rel="stylesheet" type="text/css">
+  <script src="https://kit.fontawesome.com/6c4960fdaf.js" crossorigin="anonymous"></script>
+  {{/if}}
+</head>
+
+<body>
+  {{#if userheader}}
+
+  {{>user-header}}
+
+  {{/if}}
+
+  {{#if adminheader}}
+  {{>admin-header}}
+  {{/if}}
+  {{{body}}}
+{{#if userheader}}
+{{>user-footer}}
+{{/if}}
+
+
+  {{#if user}}
+  <script src="/javascripts/validation.js"></script>
+
+
+
+  <!-- JS here -->
+  <script src="/js/vendor/jquery-3.5.0.min.js"></script>
+  <script src="/js/popper.min.js"></script>
+  <script src="/js/bootstrap.min.js"></script>
+  <script src="/js/isotope.pkgd.min.js"></script>
+  <script src="/js/imagesloaded.pkgd.min.js"></script>
+  <script src="/js/jquery.magnific-popup.min.js"></script>
+  <script src="/js/jquery.mCustomScrollbar.concat.min.js"></script>
+  <script src="/js/bootstrap-datepicker.min.js"></script>
+  <script src="/js/jquery.nice-select.min.js"></script>
+  <script src="/js/jquery.countdown.min.js"></script>
+  <script src="/js/swiper-bundle.min.js"></script>
+  <script src="/js/jarallax.min.js"></script>
+  <script src="/js/slick.min.js"></script>
+  <script src="/js/wow.min.js"></script>
+  <script src="/js/nav-tool.js"></script>
+  <script src="/js/plugins.js"></script>
+  <script src="/js/main.js"></script>
+  {{else}}
+  <!-- jQuery  -->
+  <script src="/admin/js/jquery.min.js"></script>
+  <script src="/admin/js/popper.min.js"></script>
+  <script src="/admin/js/bootstrap.min.js"></script>
+  <script src="/admin/js/modernizr.min.js"></script>
+  <script src="/admin/js/detect.js"></script>
+  <script src="/admin/js/fastclick.js"></script>
+  <script src="/admin/js/jquery.slimscroll.js"></script>
+  <script src="/admin/js/jquery.blockUI.js"></script>
+  <script src="/admin/js/waves.js"></script>
+  <script src="/admin/js/jquery.nicescroll.js"></script>
+  <script src="/admin/js/jquery.scrollTo.min.js"></script>
+
+  <script src="/admin/plugins/chart.js/chart.min.js"></script>
+  <script src="/admin/pages/dashboard.js"></script>
+
+  <!-- Required datatable js -->
+  <script src="/admin/plugins/datatables/jquery.dataTables.min.js"></script>
+  <script src="/admin/plugins/datatables/dataTables.bootstrap4.min.js"></script>
+  <!-- Buttons examples -->
+  <script src="/admin/plugins/datatables/dataTables.buttons.min.js"></script>
+  <script src="/admin/plugins/datatables/buttons.bootstrap4.min.js"></script>
+  <script src="/admin/plugins/datatables/jszip.min.js"></script>
+  <script src="/admin/plugins/datatables/pdfmake.min.js"></script>
+  <script src="/admin/plugins/datatables/vfs_fonts.js"></script>
+  <script src="/admin/plugins/datatables/buttons.html5.min.js"></script>
+  <script src="/admin/plugins/datatables/buttons.print.min.js"></script>
+  <script src="/admin/plugins/datatables/buttons.colVis.min.js"></script>
+  <!-- Responsive examples -->
+  <script src="/admin/plugins/datatables/dataTables.responsive.min.js"></script>
+  <script src="/admin/plugins/datatables/responsive.bootstrap4.min.js"></script>
+
+  <!-- Datatable init js -->
+  <script src="/admin/pages/datatables.init.js"></script>
+  
+  <!-- App js -->
+  <script src="/admin/js/app.js"></script>
+  {{/if}}
+</body>
+
+</html>
