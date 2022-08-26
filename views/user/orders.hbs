@@ -1,0 +1,172 @@
+<!-- preloader  -->
+<div id="preloader">
+    <div id="ctn-preloader" class="ctn-preloader">
+        <div class="animation-preloader">
+            <div class="spinner"></div>
+        </div>
+        <div class="loader">
+            <div class="row">
+                <div class="col-3 loader-section section-left">
+                    <div class="bg"></div>
+                </div>
+                <div class="col-3 loader-section section-left">
+                    <div class="bg"></div>
+                </div>
+                <div class="col-3 loader-section section-right">
+                    <div class="bg"></div>
+                </div>
+                <div class="col-3 loader-section section-right">
+                    <div class="bg"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- preloader  -->
+<main>
+    <!-- breadcrumb-area -->
+    <section class="breadcrumb-area breadcrumb-bg" data-background="img/bg/breadcrumb_bg03.jpg">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="breadcrumb-content">
+                        <h2>ORDERS Page</h2>
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">Cart</li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- breadcrumb-area-end -->
+
+    {{!-- <div class="container-fluid">
+        {{#each orders}}
+        <div class="row">
+            <div class="col d-flex align-items-center justify-content-between">
+
+                <div class="col-4 text-center">
+                    <p>order id</p> <span>{{this._id}}</span>
+                </div>
+
+
+                <div class="col-4 text-center">
+                    <h5>{{this.date}}</h5>
+                </div>
+
+                <div class="col-4 text-center"> <a href="" type="button" class="btn">track</a></div>
+            </div>
+        </div>
+        <div>
+            <hr>
+            <table class="table mb-0">
+                <tbody>
+                    <tr class="d-flex justify-content-around">
+
+                        <td class="product-thumbnail "><a href="shop-details.html"><img style="width: 80px;"
+                                    src="/imageUpload/{{this.product.image.[0]}}" alt="abc"></a>
+                        </td>
+                        <td>
+                            <div>
+                                <span class="product-name "><a href="">{{this.product.name}}</a></span>
+                            </div>
+                            <div>
+                                <span class="product-price"><span>quantity</span>₹ {{this.product.price}}</span>
+                            </div>
+                            <div>
+                                <span class="product-price"> ₹ subtotal price</span>
+                            </div>
+                        </td>
+                        <div>
+                            <td class="">{{this.status}}</td>
+                        </div>
+                        <div>
+                            <td>{{this.deliverDetails.phone}},{{this.deliverDetails.firstName}}</td>
+                            <td>{{this.deliverDetails.streetAddress}}</td>
+                            <td>{{this.deliverDetails.city}}</td>
+                            <td>{{this.deliverDetails.zip}}</td>
+                            <td>{{this.deliverDetails.country}}</td>
+                        </div>
+                    </tr>
+
+                </tbody>
+            </table>
+            <hr>
+        </div>
+        <div class="row d-flex justify-content-around">
+            <a href="" type="button" class="btn">cancel </a>
+            <span>payment-method{{this.paymentMethod}}</span>
+            <p>{{this.totalAmount}}</p>
+        </div>
+        {{/each}}
+    </div> --}}
+
+
+
+
+    {{!-- lkjhgfjklkjh --}}
+
+    <section class="container">
+        {{#each orders}}
+        <div class="row">
+            <div class="col-md-4 pt-4">
+                <p>Order id : {{this._id}}</p>
+
+            </div>
+            <div class="col-md-4 pt-4 text-center">
+                <h6>Order Date:{{this.date}}</h6>
+            </div>
+
+            <div class="col-md-4 pt-4">
+                <div class="ml-auto" style="width:fit-content">
+                    <button>Track  Order</button>
+                </div>
+            </div>
+
+        </div>
+        <hr style="border-bottom: 1px solid #1a1a1a;;">
+        <div class="row">
+            <div class="col-md-3 pt-4">
+
+                <img style="width: 80px;"src="/imageUpload/{{this.product.image.[0]}}" alt="some">
+            </div>
+            <div class="col-md-3 pt-4 text-start">
+                <h6>{{this.product.name}}</h6>
+                <p>₹ {{this.product.price}}</p>
+            </div>
+
+            <div class="col-md-3 pt-4 text-center">
+                <p>{{this.status}}</p>
+            </div>
+            <div class="col-md-3 pt-4 text-center">
+                <h6>Delivery Address</h6>
+                <p>{{this.deliverDetails.firstName}},{{this.deliverDetails.phone}}</p>
+                <p>{{this.deliverDetails.streetAddress}}</p>
+                <p>{{this.deliverDetails.city}}</p>
+                <p>{{this.deliverDetails.zip}}</p>
+                <p>{{this.deliverDetails.country}}</p>
+
+            </div>
+        </div>
+        <hr style="border-bottom: 1px solid #1a1a1a;;">
+        <div class="row">
+            <div class="col-md-4 pt-4">
+                <p>Total Amount : {{this.totalAmount}}</p>
+            </div>
+            <div class="col-md-4 pt-4 text-center">
+                <h6>payment-method{{this.paymentMethod}}</h6>
+            </div>
+            <div class="col-md-4 pt-4">
+                <div class="ml-auto" style="width:fit-content">
+                    <button>cancel</button>
+                </div>
+            </div>
+        </div>
+        <hr style="border-bottom: 1px solid #1a1a1a;;">
+        {{/each}}
+    </section>
+    <hr style="border-bottom: 1px solid #1a1a1a;;">

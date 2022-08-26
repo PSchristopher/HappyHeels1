@@ -70,13 +70,14 @@ router.get('/usermanagement/:id',(req,res)=>{
 
 router.get('/usermanagements/:id',(req,res)=>{
   let proId=req.params.id
-  adminhelpers.unblockUser(proId).then((data)=>{
+  adminhelpers.unblockUser(proId).then((data)=>{    
     res.redirect('/admin/usermanagement')
   })
 })
 //product-management
 router.get('/products',(req,res)=>{
   adminhelpers.getProducts(req.body).then((items)=>{
+    console.log("this was a good one",items);
   
   res.render('admin/product-management',{adminheader,items})
 })
@@ -114,8 +115,10 @@ router.get('/edit-product/:id',async(req,res)=>{
  
  let producId =await adminhelpers.editProduct(req.params.id)
  adminhelpers.viewCategories().then((show)=>{
- console.log("654rtyuuytredrtyh",producId);
-res.render('admin/edit-product',{adminheader,producId,show})
+adminhelpers.findCategory(producId.category).then((categry)=>{
+
+  res.render('admin/edit-product',{adminheader,producId,show,categry})
+})
 })
 })
 

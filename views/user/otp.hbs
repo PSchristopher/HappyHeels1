@@ -1,0 +1,19 @@
+<div class="wrapper" style="background-image: url('images/bg-registration-form-2.jpg');">
+			<div class="inner d-flex justify-content-center">
+				<form action="/user_otp" method="post">
+					<h3>Log In Form</h3>
+					
+					<div class="form-wrapper">
+						<label for="">OTP</label>
+						<input type="number" id="otp" name="otp" class="form-control">
+						
+					</div>
+
+					{{#if ErMsg}}
+                    <p class="error text-danger text-center">{{ErMsg}}</p>
+                {{/if}}
+					<button type="submit" class="buttn mt-3">Log In</button>
+                   
+				</form>
+			</div>
+		</div>

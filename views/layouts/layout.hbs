@@ -11,13 +11,18 @@
   <meta content="Themesdesign" name="author" />
 
 
+
+{{!-- razorpay --}}
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
   {{#if user}}
+  
   <!-- Place favicon.ico in the root directory -->
   <link rel="shortcut icon" type="image/x-icon" href="/img/favicon.png">
   <!-- App favicon -->
   <link rel="shortcut icon" href="/admin/images/favicon.ico">
 
-
+{{!-- sweet alert --}}
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
   <!-- MATERIAL DESIGN ICONIC FONT -->
   <link rel="stylesheet" href="/fonts/material-design-iconic-font/css/material-design-iconic-font.min.css">
@@ -38,11 +43,17 @@
   <link rel="stylesheet" href="/css/nice-select.css">
   <link rel="stylesheet" href="/css/jarallax.css">
   <link rel="stylesheet" href="/css/flaticon.css">
+<link rel="stylesheet" href="/css/orderstyle.css">
+    <script src="https://unpkg.com/js-image-zoom@0.7.0/js-image-zoom.js" type="application/javascript"></script>
+   
 
   <link rel="stylesheet" href="/css/slick.css">
   <link rel="stylesheet" href="/css/default.css">
   <link rel="stylesheet" href="/css/style.css">
   <link rel="stylesheet" href="/css/responsive.css">
+
+
+
   {{else}}
   <link rel="shortcut icon" href="/admin/images/favicon.ico">
 
@@ -60,6 +71,10 @@
   <link href="/admin/css/icons.css" rel="stylesheet" type="text/css">
   <link href="/admin/css/style.css" rel="stylesheet" type="text/css">
   <script src="https://kit.fontawesome.com/6c4960fdaf.js" crossorigin="anonymous"></script>
+
+
+
+
   {{/if}}
 </head>
 
@@ -80,12 +95,17 @@
 
 
   {{#if user}}
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <script src="/javascripts/validation.js"></script>
 
-
+{{!-- ajax script --}}
+<script src="/javascripts/myscript.js"></script>
 
   <!-- JS here -->
   <script src="/js/vendor/jquery-3.5.0.min.js"></script>
+
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
   <script src="/js/popper.min.js"></script>
   <script src="/js/bootstrap.min.js"></script>
   <script src="/js/isotope.pkgd.min.js"></script>
@@ -102,8 +122,50 @@
   <script src="/js/nav-tool.js"></script>
   <script src="/js/plugins.js"></script>
   <script src="/js/main.js"></script>
+
+
+
+<script>
+        var options={
+            width:600,
+            height:650,
+            zoomWidth:400,
+            offset:{vertical:0,horizontal:10},
+            scale:.75
+        }
+        new ImageZoom(document.getElementById("image_zoom_container"),options)
+    </script>
+    <script>
+        var options={
+            width:600,
+            height:650,
+            zoomWidth:400,
+            offset:{vertical:0,horizontal:10},
+            scale:.75
+        }
+        new ImageZoom(document.getElementById("image_zoom2_container"),options)
+    </script>
+    <script>
+        var options={
+            width:600,
+            height:650,
+            zoomWidth:400,
+            offset:{vertical:0,horizontal:10},
+            scale:.75
+        }
+        new ImageZoom(document.getElementById("image_zoom3_container"),options)
+    </script>
+    
+
+
   {{else}}
+  
+  {{!-- image crop --}}
+
+<script defer src="https://cdn.crop.guide/loader/l.js?c=YTVHVT"></script>
+  
   <!-- jQuery  -->
+
   <script src="/admin/js/jquery.min.js"></script>
   <script src="/admin/js/popper.min.js"></script>
   <script src="/admin/js/bootstrap.min.js"></script>
@@ -141,6 +203,9 @@
   <!-- App js -->
   <script src="/admin/js/app.js"></script>
   {{/if}}
+
+ 
+
 </body>
 
 </html>

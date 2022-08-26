@@ -30,7 +30,7 @@
                         <tbody>
                             {{#each usersData}}
                             <tr>
-                                <td style="text-align:center ;">{{ @index}}</td>
+                                <td style="text-align:center ;">{{inc @index}}</td>
                                 <td style="text-align:center ;">{{this.name}}</td>
                                 <td style="text-align:center ;">{{this.email}}</td>
                                 <td style="text-align:center ;">{{this.phone}}</td>
@@ -41,13 +41,13 @@
                                     {{!-- <button type="button" class="btn btn-outline-info"><i
                                             class="fa-solid fa-user-lock"></i> Block</button> --}}
                                     <a href="/admin/usermanagement/{{this._id}}"> <button type="button"
-                                            class="btn btn-outline-info btn-round waves-effect waves-light"><i
+                                            class="btn btn-outline-info btn-round waves-effect waves-light tooltips"><i
                                                 class="mdi mdi-send mr-2"></i>Block</button></a>
                                     {{else}}
                                     {{!-- <button type="button" class="btn btn-outline-danger"><i
                                             class="fa-solid fa-user-lock"></i> UnBlock</button></a> --}}
                                     <a href="/admin/usermanagements/{{this._id}}"><button type="button"
-                                            class="btn btn-outline-danger btn-round waves-effect waves-light"><i
+                                            class="btn btn-outline-danger btn-round waves-effect waves-light tooltips"><i
                                                 class="mdi mdi-power mr-2"></i>Unblock</button></a>
                                     {{/if}}
                                 </td>

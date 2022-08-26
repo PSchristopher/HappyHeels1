@@ -38,12 +38,12 @@
                     <div class="col-md-12">
                         <h6 class="input-title mt-0">Category</h6>
                         <select class="select2 form-control mb-3 custom-select" name="category" style="width: 100%; height:36px;">
-                            <option>{{producId.category}}</option>
+                            <option selected hidden value={{categry._id}}>{{categry.category}}</option>
                             <optgroup>
                                 {{#each show}}
-                                <option>{{this.category}}</option>
+                                <option value="{{this._id}}">{{this.category}}</option>
                                 {{/each}}
-                            </optgroup>
+                            </optgroup> 
                         </select>
                     </div>
 
@@ -66,9 +66,9 @@
             <div class="form-outline mb-4">
                 <label class="form-label" for="form2Example2">Image</label>
                <img style="width:80px;height: 80px;" src="/imageUpload/{{producId.image.[0]}}" alt="">
-               <img style="width:80px;height: 80px;" src="/imageUpload/{{producId.image.[1]}}" alt="">
-               <img style="width:80px;height: 80px;" src="/imageUpload/{{producId.image.[2]}}" alt="">
-                <input type="file" id="form2Example2" class="form-control" name="image" multiple />
+               <img style="width:80px;height: 80px;" src="/imageUpload/{{producId.image.[1]}}" alt="" >
+               <img style="width:80px;height: 80px;" src="/imageUpload/{{producId.image.[2]}}" alt="" >
+                <input type="file" id="form2Example2" class="form-control" name="image"  multiple />
             </div>
 
             <!-- Submit button -->
@@ -80,3 +80,4 @@
     </div>
 </div>
 </div>
+

@@ -31,7 +31,7 @@
                         <tbody>
                             {{#each show}}
                             <tr>
-                                <td>{{ @index}}</td>
+                                <td>{{ inc @index}}</td>
                                 <td>{{this.category}}</td>
                                 <td><img style="width:70px;height: 70px;" src="/imageUpload/{{this.image}}" alt=""></td>
 
@@ -44,9 +44,8 @@
                                                 class="fa-solid fa-pen-to-square"></i>Edit</button></a>
 
 
-                                    <a href="/admin/delete-category/{{this._id}}"><button type="button"
-                                            class="btn btn-outline-danger"><i
-                                                class="fa-solid fa-eraser"onclick="return confirm("Are You Sure you to delete{{this.category}} ></i>Delete</button></a>
+                                    <a href="/admin/delete-category/{{this._id}}"  onclick="return confirm(' Are You Sure you to delete{{this.category}}?')"><button type="button"
+                                            class="btn btn-outline-danger"><i class="fa-solid fa-eraser" ></i>Delete</button></a>
 
                                 </td>
                             </tr>

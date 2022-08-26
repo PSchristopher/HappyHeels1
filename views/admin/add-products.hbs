@@ -40,7 +40,7 @@
                             <option>select</option>
                             <optgroup>
                             {{#each show}}
-                                <option >{{this.category}}</option>
+                                <option value="{{this._id}}" >{{this.category}}</option>
                                 {{/each}}
                             </optgroup>
                         </select>
@@ -52,7 +52,7 @@
             </div>
             <div class="form-outline mb-4 ">
                 <label class="form-label" for="form2Example1">Discription</label>
-                <input type="name" name="discription" id="form2Example1" class="form-control" required />
+                <input type="name" name="discription" id="form2Example1" class="form-control"  required />
 
             </div>
             <div class="form-outline mb-4 ">

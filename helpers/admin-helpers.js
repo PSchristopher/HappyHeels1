@@ -77,7 +77,17 @@ module.exports = {
         })
 
     },
-    /* ------------------------------ updateProduct ----------------------------- */
+    /* -------------------------- find single category -------------------------- */
+    findCategory: (catId) => {
+        return new Promise((resolve, reject) => {
+            let scat = db.get().collection(collection.CATEGORY_COLLECTION)
+                .findOne({ _id: catId })
+            resolve(scat)
+        })
+    },
+
+
+    /* ------------------------------ update Category---------------------------- */
     updateCategory: (categryId, categoryDetails) => {
         return new Promise((resolve, reject) => {
             let Ucat = db.get().collection(collection.CATEGORY_COLLECTION)
@@ -97,26 +107,33 @@ module.exports = {
         return new Promise(async (resolve, reject) => {
             let productss = await db.get().collection(collection.PRODUCT_COLLECTION).findOne({ _id: ObjectId(producId) })
 
-            console.log("uytfdfghjkjhgfdsdfghjhgfd", productss);
+
             resolve(productss)
 
 
         })
     },
-    /* ----------------------------- update product ----------------------------- */
+    /* --------------- -------------- update product ----------------------------- */
     updateProduct: (productId, productDetails) => {
-        return new Promise(async(resolve, reject) => {
-let img = await db.get().collection(collection.PRODUCT_COLLECTION).findOne({_id:ObjectId(productId)})
-// let category= await db.get().collection(collection.CATEGORY_COLLECTION).findOne({category:productDetails.category})
+        console.log("pro");
+        console.log(productDetails);
+        console.log(productId);
+        return new Promise(async (resolve, reject) => {
+            let img = await db.get().collection(collection.PRODUCT_COLLECTION).findOne({ _id: ObjectId(productId) })
+            let categoryy = await db.get().collection(collection.CATEGORY_COLLECTION).findOne({ _id: ObjectId(productDetails.category) })
 
             if (productDetails.image.length == 0) {
                 productDetails.image = img.image
             }
+            // if(productDetails.category==null){
+            //     productDetails.category=img.category
+            // }
+
             let Uproduct = db.get().collection(collection.PRODUCT_COLLECTION)
                 .updateOne({ _id: ObjectId(productId) }, {
                     $set: {
                         name: productDetails.name,
-                        category:productDetails.category,
+                        category: ObjectId(categoryy._id),
                         discription: productDetails.discription,
                         price: productDetails.price,
                         image: productDetails.image
@@ -132,7 +149,7 @@ let img = await db.get().collection(collection.PRODUCT_COLLECTION).findOne({_id:
     addProduct: (product) => {
 
         return new Promise(async (resolve, reject) => {
-
+            product.category = ObjectId(product.category)
             let products = await db.get().collection(collection.PRODUCT_COLLECTION).insertOne(product).then((data) => {
             })
             resolve(products)
@@ -142,7 +159,32 @@ let img = await db.get().collection(collection.PRODUCT_COLLECTION).findOne({_id:
     /* ------------------------------ vie products ------------------------------ */
     getProducts: (product) => {
         return new Promise(async (resolve, reject) => {
-            let details = await db.get().collection(collection.PRODUCT_COLLECTION).find().toArray()
+            let details = await db.get().collection(collection.PRODUCT_COLLECTION)
+                .aggregate([
+                    {
+
+                        $lookup:
+                        {
+                            from: collection.CATEGORY_COLLECTION,
+                            localField: 'category',
+                            foreignField: '_id',
+                            as: 'category'
+                        }
+
+                    },
+                    {
+                        $project:
+                        {
+                            category: { $arrayElemAt: ['$category', 0] },
+                            name: 1,
+                            discription: 1,
+                            price: 1,
+                            image: 1
+
+                        }
+                    }
+                ]).toArray()
+
 
             resolve(details)
         })
@@ -150,9 +192,44 @@ let img = await db.get().collection(collection.PRODUCT_COLLECTION).findOne({_id:
     /* ---------------------------- detailed product ---------------------------- */
     getdetailedProducts: (detailid) => {
         return new Promise(async (resolve, reject) => {
-            let detail = await db.get().collection(collection.PRODUCT_COLLECTION).findOne({ _id: ObjectId(detailid) })
-            console.log("dfghjkjhgf", detail);
-            resolve(detail)
+
+            // let detail = await db.get().collection(collection.PRODUCT_COLLECTION).findOne({ _id: ObjectId(detailid) })
+            // let catDetail = await db.get().collection(collection.CATEGORY_COLLECTION).findOne({_id:detail.category})
+            let detail = await db.get().collection(collection.PRODUCT_COLLECTION)
+                .aggregate([
+                    {
+
+                        $lookup:
+                        {
+                            from: collection.CATEGORY_COLLECTION,
+                            localField: 'category',
+                            foreignField: '_id',
+                            as: 'category'
+                        }
+
+                    },
+                    {
+                        $match: {
+                            _id: ObjectId(detailid)
+                        }
+                    },
+                    {
+                        $project:
+                        {
+                            category: { $arrayElemAt: ['$category', 0] },
+                            name: 1,
+                            discription: 1,
+                            price: 1,
+                            image: 1
+
+                        }
+                    }
+                ]).toArray()
+
+
+            console.log("finding", detail);
+
+            resolve(detail[0])
         })
     },
     /* ----------------------------- delete product ----------------------------- */
