@@ -1,0 +1,103 @@
+<div class="row">
+    <div class="col-xl-12">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="header-title pb-3 mt-0">Orders</h5>
+                <div class="table-responsive">
+                    <table class="table table-hover mb-0">
+                        <thead>
+                            <tr class="align-self-center">
+                                <th>Order Id</th>
+                                <th>Ordered By </th>
+                                <th>Payment Type</th>
+                                <th>Date</th>
+                                <th>Amount</th>
+                                <th>status</th>
+                                <th>action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {{#each orderData}}
+                            <tr>
+                                <td>{{this._id}}</td>
+                                <td>
+                                    {{this.deliverDetails.firstName}}
+
+                                </td>
+                                <td>{{this.paymentMethod}}</td>
+                                <td>{{this.date}}</td>
+                                <td>₹{{this.totalAmount}}</td>
+                                <td><span class="badge badge-boxed  badge-soft-warning">{{this.status}}</span></td>
+
+                                <td>
+                                    {{!-- <button type="button"
+                                        class="btn btn-gradient-dark waves-effect waves-light dropdown-toggle waves-effect"
+                                        data-toggle="dropdown" aria-expanded="false">Click Me<span class="caret"></span>
+                                    </button>
+                                    <div class="dropdown-menu">
+                                        <a class="dropdown-item" href="#">Cancel</a>
+                                        <a class="dropdown-item" href="#">Shipped</a>
+                                        <a class="dropdown-item" href="#">Out For Delivery</a>
+                                        <a class="dropdown-item" href="#">Delivered</a>
+                                    </div> --}}
+
+
+                                    <div class="col-12">
+                                        <div class="form-grp">
+                                            <label>Order Status </label>
+                                            <select class="custom-select" id="statusValue" name="status" onchange="statusUpdate(value,'{{this._id}}')">
+                                                <option value="{{this.status}}" selected hidden>{{this.status}}</option>
+                                                <option value="shipped">Shipped</option>
+                                                <option value="out for delivery">Out for delivery</option>
+                                                <option value="pending">Pending</option>
+                                                <option value="Delivered">Deliverd</option>
+                                                <option value="Placed">Placed</option>
+
+                                            </select>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            {{/each}}
+
+                        </tbody>
+                    </table>
+                </div>
+                <!--end table-responsive-->
+                <div class="pt-3 border-top text-right">
+                    <a href="#" class="text-primary">View all <i class="mdi mdi-arrow-right"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script type="text/javascript">
+    var select = document.getElementById('statusValue');
+    var value = select.options[select.selectedIndex].value;
+</script>
+
+<script>
+    function statusUpdate(val, orderId) {
+        $.ajax({
+            url: '/admin/updateOrderStatus',
+            data: {
+                status: val,
+                id: orderId,
+
+            },
+            method: 'post',
+            success: (response) => {
+                if (response.status) {
+                    alert('status Changed')
+                    location.reload()
+
+                } else {
+                    console.log("Fine order changed")
+                }
+            }
+        })
+    }
+</script>

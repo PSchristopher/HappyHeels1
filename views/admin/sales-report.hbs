@@ -1,0 +1,25 @@
+
+
+<div style="padding-top: 20px; display: flex;justify-content: center;">
+    <h2>SALES REPORT</h2>
+</div>
+    <form action="/admin/sales-report" method="post">
+<div class="row pt-5">
+        <div class="col-4 ">
+            <label for="">From date</label>
+            {{!-- <input type="date" class="form-control" name="from" placeholder="Start Date" /> --}}
+             <input type="text" class="form-control" name="from" placeholder="Enter Your Starting Date" id="mdate">
+
+        </div>
+        <div class="col-4">
+            <label for="">TILL date</label>
+            {{!-- <input type="date" class="form-control" name="to" placeholder="End Date" /> --}}
+             <input type="text" class="form-control" name="to" placeholder="Enter Your Ending Date" id="mdates">
+        </div>
+        <div class="col-4">
+            <h5><button type="submit">View</button></h5>
+        </div>
+</div>
+    </form>
+    
+    

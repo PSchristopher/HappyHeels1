@@ -1,5 +1,5 @@
 const express = require('express');
-const { response } = require('../app');
+const { response, render } = require('../app');
 const router = express.Router();
 const userhelpers = require('../helpers/user-helpers')
 const adminhelpers = require('../helpers/admin-helpers')
@@ -86,9 +86,11 @@ router.get('/', async (req, res, next) => {
 
   }
   adminhelpers.viewCategories().then((show) => {
-
+    adminhelpers.ViewBanner().then((banner) => {
+      console.log(banner, "abreetftvteccv");
+      res.render('user/index', { title: 'Home', home: true, user: true, userName, userheader, show, cartCount, banner })
+    })
     // res.render('admin/view-category',{adminheader,show})
-    res.render('user/index', { title: 'Home', home: true, user: true, userName, userheader, show, cartCount })
   })
 
 });
@@ -141,6 +143,8 @@ router.post('/user_otp', (req, res) => {
   })
 })
 
+
+
 //all products
 
 router.get('/allproducts', async (req, res) => {
@@ -159,7 +163,7 @@ router.get('/allproducts', async (req, res) => {
 })
 
 /* ----------------------------- product detail ----------------------------- */
-router.get('/productdetail/:id',async (req, res) => {
+router.get('/productdetail/:id', async (req, res) => {
   if (userName) {
     var cartCount = await userhelpers.getCartCount(req.session.user._id)
   }
@@ -168,26 +172,40 @@ router.get('/productdetail/:id',async (req, res) => {
   })
 })
 
- 
+/* -------------------------- categorywise products ------------------------- */
+router.get('/catWiseproducts/:id', async (req, res) => {
+  if (userName) {
+    var cartCount = await userhelpers.getCartCount(req.session.user._id)
+  }
+  userhelpers.categoryWiseProductList(req.params.id).then((data) => {
+    if (data.length != 0) {
+      res.render('user/categorywise-products', { user: true, data, userheader, userName, cartCount })
+    } else {
+      res.redirect('/')
+    }
+
+
+  })
+})
 
 /* ---------------------------------- cart ---------------------------------- */
 router.get('/cart', verifyLogin, async (req, res) => {
-total = 0
-let subtotal
+  total = 0
+  let subtotal
   if (userName) {
     var cartCount = await userhelpers.getCartCount(req.session.user._id)
 
   }
 
   let products = await userhelpers.getCartProducts(req.session.user._id)
-  subtotal= await userhelpers.getCartSubTotal(req.session.user._id)
-  for(var i =0; i< products.length; i++){
+  subtotal = await userhelpers.getCartSubTotal(req.session.user._id)
+  for (var i = 0; i < products.length; i++) {
     products[i].subTotal = subtotal[i].suBtotal
   }
-  if(cartCount>0)
-  total =await userhelpers.getTotalAmount(req.session.user._id)
- console.log(products,"hfffghj");
-    res.render('user/cart', { user: true, userheader, products, userName, cartCount,total })
+  if (cartCount > 0)
+    total = await userhelpers.getTotalAmount(req.session.user._id)
+  console.log(products, "hfffghj");
+  res.render('user/cart', { user: true, userheader, products, userName, cartCount, total })
 
 })
 
@@ -205,85 +223,201 @@ router.get('/add-to-cart/:id', verifyLogin, (req, res) => {
 
 })
 /* ------------------------- product quantity change ------------------------ */
-router.post('/change-product-quantity',  (req, res, next) => {
+router.post('/change-product-quantity', (req, res, next) => {
 
 
- 
-  userhelpers.changeProductQuantity(req.body).then(async(response) => {
-response.total = await userhelpers.getTotalAmount(req.body.user)
-  response.subTotal = await userhelpers.getSubTotal(req.body)
-    
-// let responses ={}
-// responses.total=data
-// if(response.removeProduct){
-//   console.log('hggg');
-//   responses.removeProduct = response.removeProduct
-// }
 
-// if(response.inc){
-//   responses.inc = response.inc
-// }
+  userhelpers.changeProductQuantity(req.body).then(async (response) => {
+    response.total = await userhelpers.getTotalAmount(req.body.user)
+    response.subTotal = await userhelpers.getSubTotal(req.body)
+
+    // let responses ={}
+    // responses.total=data
+    // if(response.removeProduct){
+    //   console.log('hggg');
+    //   responses.removeProduct = response.removeProduct
+    // }
+
+    // if(response.inc){
+    //   responses.inc = response.inc
+    // }
 
 
-      res.json(response)
+    res.json(response)
 
-    
+
   })
 })
 
 /* ------------------------- delete carted products ------------------------- */
 
-router.post('/delete-product',verifyLogin,(req,res)=>{
-  
-userhelpers.deleteProduct(req.body).then((response)=>{
-  res.json(response)
-})
+router.post('/delete-product', verifyLogin, (req, res) => {
+
+  userhelpers.deleteProduct(req.body).then((response) => {
+    res.json(response)
+  })
 })
 
 
 
 /* ------------------------------- check out ------------------------------ */
-router.get('/check-out',verifyLogin,async(req,res)=>{
-   total =await userhelpers.getTotalAmount(req.session.user._id)
-  
-  res.render('user/place-order',{userheader,user:true,userName,total})
+router.get('/check-out', verifyLogin, async (req, res) => {
+  total = await userhelpers.getTotalAmount(req.session.user._id)
+  let userAddress = await userhelpers.getUserAddress(userName._id)
+  console.log('userAddress');
+  console.log(userAddress);
+  res.render('user/place-order', { userheader, user: true, userName, total, userAddress })
 })
 
 /* -------------------------------- checkout -------------------------------- */
-router.post('/place-order',async (req,res)=>{
-let products = await userhelpers.getCartProductList(req.body.userId)
-let totalPrice=await userhelpers.getTotalAmount(req.body.userId)
+router.post('/place-order', async (req, res) => {
 
-  userhelpers.placeOrder(req.body,products,totalPrice).then((orderId)=>{
-if(req.body['payment-method'] =='COD'){
+  console.log(req.body, "body body");
 
-  res.json({codSuccess:true})
-}else{
-userhelpers.generateRazoepay(orderId,totalPrice).then((response)=>{
-res.json(response)
-})
-}
+  console.log(req.body.user);
+  let products = await userhelpers.getCartProductList(req.body.user)
+  let totalPrice = await userhelpers.getTotalAmount(req.body.user)
+  let coupondata = await userhelpers.checkCouponData(req.body.user)
+  let couponValue = await userhelpers.checkCouponValue(coupondata.code)
+  console.log(totalPrice,"before");
+  console.log(coupondata);
+  console.log(couponValue);
+  console.log("onnumilla");
+  if (coupondata.code) {
+   let discount = totalPrice / 100 * couponValue.value
+   console.log(discount,"varuo dscount");
+    totalPrice = parseInt(totalPrice - discount)
+  }
+  console.log(totalPrice,"after");  
+  userhelpers.placeOrder(products, req.body, totalPrice).then((orderId) => {
+
+    console.log(req.body, "req.body annu manhhh");   
+
+
+    if (req.body['payment-method'] == 'COD') {
+
+      res.json({ codSuccess: true })
+    } else if (req.body['payment-method'] == 'Razorpay') {
+      userhelpers.generateRazoepay(orderId, totalPrice).then((response) => {
+        console.log(response);
+        response.RazorPay = true;
+        res.json(response)
+      })
+    } else if (req.body['payment-method'] == 'Paypal') {
+      userhelpers.generatePayPal(orderId, totalPrice).then((response) => {
+        response.Paypal = true
+        res.json(response)
+      })
+    }
   })
 
 })
 /* ------------------------------- get orders ------------------------------- */
-router.get('/orders',verifyLogin,async(req,res)=>{
-  let orders = await userhelpers.getOrderlist(userName._id)
-  console.log(orders,"varanam");
-  res.render('user/orders',{user:true,userheader,userName,orders})
+router.get('/orders', verifyLogin, async (req, res) => {
+  let orders = await userhelpers.getAllOrders(userName._id)
+  console.log(orders, "varanam");
+  res.render('user/all-orders', { user: true, userheader, userName, orders })
 })
 
-/* ------------------------ razor pay payment verify ------------------------ */
-router.post('/verify-payment',(req,res)=>{
-  console.log(req.body);
-  userhelpers.verifyPayment(req.body).then(()=>{
-    userhelpers.changePaymentStatus(req.body['order[receipt]']).then(()=>{
-      console.log('payment success');
-      res.json({status:true})
-    })
-  }).catch(()=>{
-    res.json({status:false,errMsg:'something went wrong'})
+/* ----------------------------- post get orders ---------------------------- */
+router.get('/order-cancel/:id', (req, res) => {
+
+  console.log(req.params.id, "abced");
+  userhelpers.cancelOrder(req.params.id).then(() => {
+
+    res.redirect('/orders')
   })
 })
 
+
+/* ----------------------------- detailed order ----------------------------- */
+router.get('/orderdetail/:id', verifyLogin, (req, res) => {
+  userhelpers.getDetailedOrder(req.params.id).then(async (orderdetail) => {
+    // orders = await userhelpers.getAllOrders(userName._id)
+    console.log(orderdetail, "orderdetails");
+
+    let order = await userhelpers.getOrderProduct(req.params.id)
+    console.log(order, 'order');
+    res.render('user/order-detail', { user: true, userheader, userName, orderdetail, order })
+  })
+})
+
+/* ------------------------ razor pay payment verify ------------------------ */
+router.post('/verify-payment', (req, res) => {
+  console.log(req.body);
+  userhelpers.verifyPayment(req.body).then(() => {
+    userhelpers.changePaymentStatus(req.body['order[receipt]']).then(() => {
+      console.log('payment success');
+      res.json({ status: true })
+    })
+  }).catch(() => {
+    res.json({ status: false, errMsg: 'something went wrong' })
+  })
+})
+
+
+/* ------------------------------ user profile ------------------------------ */
+router.get('/User-Details', verifyLogin, async (req, res) => {
+
+  await userhelpers.viewUserDetails(userName._id).then((userDetail) => {
+
+    console.log(userDetail);
+    res.render('user/user-profile', { user: true, userheader, userName, userDetail })
+
+  })
+})
+/* -------------------- view user address in user profile ------------------- */
+router.get('/show-address', verifyLogin, async (req, res) => {
+
+  userAddress = await userhelpers.getUserAddress(userName._id)
+  console.log(userAddress, "ioooooo");
+  res.render('user/user-view-address', { user: true, userheader, userName, userAddress })
+})
+
+/* ---------------------------- user-add-address ---------------------------- */
+
+router.get('/add-address', verifyLogin, (req, res) => {
+
+  res.render('user/user-add-address', { user: true, userheader, userName })
+})
+
+/* ----------------------------- add-new-address ---------------------------- */
+
+router.post('/add-address', verifyLogin, (req, res) => {
+
+  console.log(req.body, "gtrertyuik");
+  userhelpers.addNewAddress(userName._id, req.body).then((response) => {
+    res.json(response)
+  })
+})
+/* ---------------------------------- error --------------------------------- */
+router.get('/error', (req, res) => {
+
+  res.render('error')
+})
+/* ------------------------------ apply coupon ------------------------------ */
+router.post('/apply-coupon', (req, res) => {
+  console.log(req.body)
+  userhelpers.applyCoupon(req.body, req.session.user._id).then(async (response) => {
+    console.log(response, "hi helo");
+    
+    if (response.a) {
+
+      let total = await userhelpers.getTotalAmount(req.session.user._id)
+
+      let couponDiscount = total * parseInt(response.a.value) / 100
+
+      let amount = total - couponDiscount
+      response.dicountedPrice = Math.round(couponDiscount)
+      response.finalAmount = Math.round(amount);
+
+      res.json(response)
+    } else {
+
+      res.json(response)
+    }
+  })
+})
+
+/* -------------------------------- wisilist -------------------------------- */
 module.exports = router;

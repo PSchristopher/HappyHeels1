@@ -1,3 +1,4 @@
+const { payment } = require("paypal-rest-sdk")
 const { post, response } = require("../../app")
 
 function addToCart(proID) {
@@ -23,16 +24,16 @@ function changeQuantity(cartId, proId,userID, count) {
     count = parseInt(count)
 
    
-    $.ajax({
+        $.ajax({
 
-        url: '/change-product-quantity',
-        data: {
-            cart: cartId,
-            product: proId,
-            user:userID,
-            count: count,
-            quantity: quantity
-        },
+            url: '/change-product-quantity',
+            data: {
+                cart: cartId,
+                product: proId,
+                user:userID,
+                count: count,
+                quantity: quantity
+            },
         //console.log(count),
         method: 'post',
         success: (response) => {
@@ -83,6 +84,26 @@ $.ajax({
 
 }
 
+/* ---------------------- add address in checkout form ---------------------- */
+function saveAddress(){
+    $.ajax({
+        url:'/add-address',
+        method:'post',
+        data: $('#checkout-address-form').serialize(),
+        success: (response) => {
+            console.log(response);
+            swal({
+                title: "Address added!",
+                text: " Successfully add addresss u entred!",
+                icon: "success",
+            }).then(function() {
+                location.href = "/check-out";
+            });
+            
+        }
+    })
+}
+
 /* ------------------------------- place order ------------------------------ */
 
 
@@ -90,7 +111,7 @@ function placeOrder(){
         $.ajax({
             url: '/place-order',
             method: 'post',
-            data: $('.checkout-form').serialize(),
+            data: $('.checkout-form-m').serialize(),
             success: (response) => {
              
                 if(response.codSuccess){
@@ -102,8 +123,22 @@ function placeOrder(){
                         location.href = "/orders";
                     });
                     
-                }else{
+                }else if(response.RazorPay){
                   razorpayPayment(response)  
+                }else if(response.Paypal){
+                    alert('beffin')
+                    // paypalpayment(response)
+
+                    for(let i =0; i < response.links.length; i++) {
+
+                        if(response.links[i].rel === "approval_url"){
+
+                            location.href= response.links[i].href;
+
+                        }
+
+
+                    }               
                 }
             }
         })
@@ -165,4 +200,33 @@ function verifyPayment(payment,order){
             }
         }
     })
+}
+
+// function paypalpayment(order){
+// for(let i =0;i<payment.links.length;i++){
+//     if(order.links[i].rel === 'approval_url'){
+//         location.href= response.links[i].href;
+//     }
+// }
+// }
+
+function addAddress() {
+    $.ajax({
+        url: '/add-address',
+        method: 'post',
+        data: $('#address-form').serialize(),
+
+        success: (response) => {
+            console.log(response);
+            swal({
+                title: "Address added!",
+                text: " Successfully add addresss u entred!",
+                icon: "success",
+            }).then(function() {
+                location.href = "/User-Details";
+            });
+            
+        }
+    })
+
 }

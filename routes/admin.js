@@ -1,7 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const adminhelpers=require('../helpers/admin-helpers')
-const multer =require('../config/imageUpload')
+const multer =require('../config/imageUpload');
+const { response } = require('../app');
 
 
 
@@ -38,11 +39,16 @@ router.get('/logout',(req,res)=>{
 
 let adminheader=true;
 /* GET home page. */
-router.get('/', function(req, res, next) {
-  if(req.session.adminloggedIn)
-  res.render('admin/admin-index', { title: 'Express',adminheader});
-  else
+router.get('/',async function(req, res, next) {
+  if(req.session.adminloggedIn){
+let value = await adminhelpers.paymentMethodChart()
+let yearData = await adminhelpers.yearChart()
+
+ console.log("value",value);
+  res.render('admin/admin-index', { title: 'Express',adminheader,value});
+  }else{
   res.redirect('/admin/login')
+  }
 });
 
 
@@ -158,7 +164,7 @@ adminhelpers.viewCategories().then((show)=>{
 res.render('admin/edit-category',{adminheader,categoryId,show})
 })
 })
-router.post('/updatecategory/:id',multer.upload.array('image'),(req,res)=>{
+router.post('/updatecategory/:id',multer.upload.array('image',4),(req,res)=>{
   console.log("dfgh",req.body);
   var filename=req.files.map(function(file){
     return file.filename
@@ -195,5 +201,113 @@ router.post('/add-category',multer.upload.single("image"),(req,res,next)=>{
   })
 
 })
+/* ----------------------------- view all orders ---------------------------- */
+router.get('/view-orders',(req,res)=>{
+  adminhelpers.viewAllOrders().then((orderData)=>{
 
-module.exports = router;
+    res.render('admin/view-orders',{adminheader,orderData})
+  })
+})  
+/* ------------------------------ update order ------------------------------ */
+router.post('/updateOrderStatus',(req,res)=>{
+  adminhelpers.updateOrderStatus(req.body).then(()=>{
+    res.json({status:true})
+  })
+})
+
+
+
+
+
+
+/* ------------------------------ add a banner ------------------------------ */
+router.get('/add-Banner',(req,res)=>{
+  
+  res.render('admin/addBanner',{adminheader})
+})
+
+/* ------------------------------ add a banner post------------------------------ */
+router.post('/add-Banner',multer.upload.single("image"),(req,res)=>{
+  req.body.image = req.file.filename
+console.log(req.body);
+  adminhelpers.addBanner(req.body).then((response)=>{
+   let BnSuc=response.true
+   res.redirect('/admin/add-Banner')
+  })
+})
+
+/* ------------------------------- view banner ------------------------------ */
+router.get('/view-banner',(req,res)=>{
+  adminhelpers.ViewBanner().then((data)=>{
+console.log(data,"iuytfresdrftyg");
+    res.render('admin/view-Banner',{adminheader,data})
+  })
+})   
+
+/* -------------------------------------------------------------------------- */
+/*                                delete banner                               */
+/* -------------------------------------------------------------------------- */
+router.post('/delete-banner',async(req,res)=>{
+  console.log(req.body,"im so lonely");
+
+let result =  await adminhelpers.deleteBanner(req.body).then((response)=>{
+console.log(response);
+    res.json(response)
+  })
+})
+
+
+/* ------------------------------ sales report ------------------------------ */
+router.get('/sales-report',(req,res)=>{
+  res.render('admin/sales-report',{adminheader})
+})  
+
+
+router.post('/sales-report',(req,res)=>{
+  console.log(req.body)
+
+adminhelpers.showSalesReport(req.body).then((data)=>{
+  
+})
+
+  res.send("hi")
+})
+
+ 
+/* ---------------------------- coupon management --------------------------- */
+router.get('/add-coupon',(req,res)=>{
+  res.render('admin/add-coupon',{adminheader,err:req.session.Errmsg,succ:req.session.Sucmsg})
+  req.session.Sucmsg=false
+  req.session.Errmsg =false
+})
+router.post('/addCoupon',(req,res)=>{
+  console.log(req.body,"coupon details");
+  adminhelpers.addCoupon(req.body).then((data)=>{
+    if(data.status){
+      req.session.Errmsg=data.message
+      res.redirect('/admin/add-coupon')
+  
+    } else{
+      req.session.Sucmsg=data.message
+      res.redirect('/admin/add-coupon')
+    }
+  })
+ 
+})
+/* ----------------------------- view all coupon ---------------------------- */
+router.get('/view-Coupon',(req,res)=>{
+  adminhelpers.viewCoupon().then((couponList)=>{
+    console.log(couponList);
+    res.render('admin/view-coupon',{adminheader,couponList})
+  })
+})
+/* ------------------------- block or ublock coupon ------------------------- */
+router.post('/couponAction/:id',(req,res)=>{
+  console.log(req.params.id,"coupnid");
+  adminhelpers.manageCoupon(req.params.id).then((response)=>{
+    res.json(response)
+  })
+})
+
+
+module.exports = router; 

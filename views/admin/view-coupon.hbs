@@ -1,0 +1,62 @@
+<div class="pt-5 d-flex justify-content-center">
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="card-body">
+
+                <h4 class="mt-0 header-title">LIST OF ALL COUPONS ADDED</h4>
+
+                <div class="table-responsive">
+                    <table class="table table-bordered mb-0 table-centered">
+                        <thead>
+                            <tr>
+                                <th>COUPON ID</th>
+                                <th>Expiry Date</th>
+                                <th>Coupon Value</th>
+                                <th>Coupon Name</th>
+                                <th>Coupon Code</th>
+                                <th>Coupon Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {{#each couponList}}
+                            <tr>
+                                <td>{{this._id}}</td>
+                                <td>{{this.endingdate}}</td>
+                                <td>{{this.value}}</td>
+                                <td>{{this.name}}</td>
+                                <td>{{this.code}}%</td>
+                                <td><span class="badge badge-success " id='coupId' >{{this.status}}</span></td>
+                                <td>{{#if this.status}}
+                                    <a href="" onclick="manage('{{this._id}}')"><span class="badge badge-outline-danger">Disable</span> </a>
+                                    {{else}}
+                                    <a href="" onclick="manage('{{this._id}}')"><span class="badge badge-outline-success">Activate</span></a>
+                                    {{/if}}
+                                </td>
+                            </tr>
+                            {{/each}}
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function manage(coupId){
+        event.preventDefault()
+        console.log("im working")
+        $.ajax({
+        url:'/admin/couponAction/'+coupId,
+    
+        method:'post',
+        success:(response)=>{
+            location.reload()
+             console.log(response);
+            document.getElementById('coupId').innerHTML=response.status
+        }
+    })
+
+    }
+</script>

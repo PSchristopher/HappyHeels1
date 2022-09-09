@@ -6,9 +6,20 @@ const ottp = require('../config/otp')
 const { ObjectID } = require('bson')
 const { response } = require('../app')
 const client = require('twilio')(ottp.accountSID, ottp.authToken)
+const { resolve } = require('path')
 
 const Razorpay = require('razorpay');
 const razorpayData = require('../config/Razorpay')
+
+const paypal = require('paypal-rest-sdk');
+const paypalData = require('../config/Paypal')
+const moment = require('moment')
+
+paypal.configure({
+    'mode': 'sandbox', //sandbox or live
+    'client_id': process.env.CLIENT_ID,
+    'client_secret': process.env.CLIENT_SECRET
+});
 
 module.exports = {
     // signup
@@ -404,131 +415,414 @@ module.exports = {
             resolve(cartSubTotal)
         })
     },
+
+    /* ------------------------ show address in checkout ------------------------ */
+    getUserAddress: (userId) => {
+        return new Promise(async (resolve, reject) => {
+            let userAddress = await db.get().collection(collection.ADDRESS_COLLECTION)
+                .aggregate([
+                    {
+                        $match: { user: userId }
+                    },
+                    {
+                        $unwind: '$address'
+                    },
+                    {
+                        $project: {
+                            user: 1,
+                            firstName: "$address.firstName",
+                            lastName: "$address.lastName",
+                            streetAddress: "$address.streetAddress",
+                            city: "$address.city",
+                            state: "$address.state",
+                            zip: "$address.zip",
+                            phone: "$address.phone",
+                            email: "$address.email"
+
+                        }
+
+
+                    }
+                ]).toArray()
+
+            console.log('purshu sundaran');
+            //console.log(userAddress);
+            resolve(userAddress)
+        })
+    },
+
     /* --------------------------- getCartProductList to show in orders  list--------------------------- */
     getCartProductList: (userID) => {
+        console.log(userID, "dfghgfdsdfg");
         return new Promise(async (resolve, reject) => {
             let cart = await db.get().collection(collection.CART_COLLECTION).findOne({ user: ObjectID(userID) })
-           
+
             resolve(cart.products)
 
         })
     },
     /* ------------------------------- order place ------------------------------ */
-    placeOrder: (order, products, totalPrice) => {
-        return new Promise((resolve, reject) => {
-            console.log(order, products, totalPrice);
+    placeOrder: (products, order, totalPrice) => {
+        console.log('user test');
+        console.log(order);
+        const m = moment();
+        m.locale("en-au");
+        return new Promise(async (resolve, reject) => {
+            console.log(order, products, totalPrice, "theermanaayi");
             let status = order['payment-method'] === 'COD' ? 'placed' : 'pending'
+            let addressData = await db.get().collection(collection.ADDRESS_COLLECTION).findOne({ _id: ObjectID(order.address) })
+            console.log(addressData, "idhaanu address");
             let orderObj = {
+
                 deliverDetails: {
-                    phone: order.phone,
-                    email: order.email,
-                    zip: order.zip,
-                    state: order.state,
-                    city: order.city,
-                    streetAddress: order['street-address'],
-                    country: order.country,
-                    lastName: order.lastName,
-                    firstName:order.firstName
+                    phone: addressData.address.phone,
+                    email: addressData.address.email,
+                    zip: addressData.address.zip,
+                    state: addressData.address.state,
+                    city: addressData.address.city,
+                    streetAddress: addressData.address['street-address'],
+                    country: addressData.address.country,
+                    lastName: addressData.address.lastName,
+                    firstName: addressData.address.firstName
                 },
-                userId:ObjectID(order.userId),
-                paymentMethod:order['payment-method'],
-                products:products,
-                totalAmount:totalPrice,
-                status:status,
-                date:new Date()
+                userId: ObjectID(order.user),
+                paymentMethod: order['payment-method'],
+                products: products,
+                totalAmount: totalPrice,
+                status: status,
+                date: new Date()
+
             }
             db.get().collection(collection.ORDER_COLLECTION).insertOne(orderObj)
-            .then((response)=>{
-               
-                db.get().collection(collection.CART_COLLECTION).deleteOne({user:ObjectID(order.userID)})
-                resolve(response.insertedId)
-            })
+                .then((response) => {
 
+                    db.get().collection(collection.CART_COLLECTION).deleteOne({ user: ObjectID(order.userID) })
+                    resolve(response.insertedId)
+                })
+
+        })
+    },
+    /* ------------------------- checkin coupon in cart ------------------------- */
+    checkCouponData: (userId) => {
+        return new Promise(async (resolve, reject) => {
+            let couponData = await db.get().collection(collection.CART_COLLECTION).findOne({ user: ObjectID(userId) })
+            resolve(couponData)
+        })
+    },
+    /* ---------------- eckin coupon details in coupon collection --------------- */
+    checkCouponValue: (code) => {
+        return new Promise(async (resolve, reject) => {
+            let value = await db.get().collection(collection.COUPON_COLLECTION).findOne({ code: code })
+            resolve(value)
         })
     },
     /* ---------------------------- users order list ---------------------------- */
-    getOrderlist:(userID)=>{
-        return new Promise(async(resolve,reject)=>{
-        //   let  orders =await db.get().collection(collection.ORDER_COLLECTION).findOne({userId:ObjectID(userID)})
-         let order = await db.get().collection(collection.ORDER_COLLECTION)
-         .aggregate([
-            {
-                $match:{userId:ObjectID(userID)}
-            },
-            {
-                $unwind:'$products'
-            },
-           
-            {
-               $lookup:{
-                from:collection.PRODUCT_COLLECTION,
-                localField:'products.item',
-                foreignField:'_id',
-                as:'products'
-               } 
-            },
-            {
-                $project:{
-                    deliverDetails:1,
-                    userId:1,
-                    paymentMethod:1,
-                    totalAmount:1,
-                    status:1,
-                    date:1,
-                    product:{$arrayElemAt:['$products',0]}
-                }
+
+    getAllOrders: (userID) => {
+        console.log(userID, "user anee");
+        return new Promise(async (resolve, reject) => {
+            let orders = await db.get().collection(collection.ORDER_COLLECTION)
+                .find({ userId: ObjectID(userID) }).sort({ date: -1 }).toArray()
+            for (var i = 0; i < orders.length; i++) {
+                orders[i].date = orders[i].date.toLocaleDateString()
+
             }
-         ]).toArray()
-         console.log("order");
-         resolve(order);
-         console.log("order");
+            resolve(orders)
+
         })
     },
+    getDetailedOrder: (orderId) => {
+        return new Promise(async (resolve, reject) => {
+            let orderItems = await db.get().collection(collection.ORDER_COLLECTION)
+                .aggregate([
+                    {
+                        $match: { _id: ObjectID(orderId) }
+                    },
+                    {
+                        $unwind: '$products'
+                    },
+                    {
+                        $project: {
+                            item: '$products.item',
+                            quantity: '$products.quantity'
+                        }
+                    },
+                    {
+                        $lookup: {
+                            from: collection.PRODUCT_COLLECTION,
+                            localField: 'item',
+                            foreignField: '_id',
+                            as: 'product'
+                        }
+                    },
+                    {
+                        $project: {
+                            item: 1, quantity: 1, product: { $arrayElemAt: ['$product', 0] }
+                        }
+                    }
+                ]).toArray()
+
+            resolve(orderItems)
+
+        })
+    },
+    /* ----------------------------- cancel a order ----------------------------- */
+    cancelOrder: (orderId) => {
+        console.log(orderId, "ordernte ID");
+        return new Promise((resolve, reject) => {
+            db.get().collection(collection.ORDER_COLLECTION).updateOne({ _id: ObjectID(orderId) }, { $set: { status: "cancelled" } }).then(() => {
+
+                resolve(response)
+            })
+        })
+    },
+
+    /* ---------------------------- GET ORDERProduct ---------------------------- */
+
+    getOrderProduct: (orderId) => {
+        return new Promise((resolve, reject) => {
+            db.get().collection(collection.ORDER_COLLECTION).findOne({ _id: ObjectID(orderId) }).then((data) => {
+
+                resolve(data)
+            })
+        })
+    },
+
+    // getOrderlist:(userID)=>{
+    //     return new Promise(async(resolve,reject)=>{
+    //     //   let  orders =await db.get().collection(collection.ORDER_COLLECTION).findOne({userId:ObjectID(userID)})
+    //      let order = await db.get().collection(collection.ORDER_COLLECTION)
+    //      .aggregate([
+    //         {
+    //             $match:{userId:ObjectID(userID)}
+    //         },
+    //         {
+    //             $unwind:'$products'
+    //         },
+
+    //         {
+    //            $lookup:{
+    //             from:collection.PRODUCT_COLLECTION,
+    //             localField:'products.item',
+    //             foreignField:'_id',
+    //             as:'products'
+    //            } 
+    //         },
+    //         {
+    //             $project:{
+    //                 deliverDetails:1,
+    //                 userId:1,
+    //                 paymentMethod:1,
+    //                 totalAmount:1,
+    //                 status:1,
+    //                 date:1,
+    //                 product:{$arrayElemAt:['$products',0]}
+    //             }
+    //         }
+    //      ]).toArray()
+    //      console.log("order");
+    //      resolve(order);
+    //      console.log("order");
+    //     })
+    // },
     /* --------------------------- generate razor pay --------------------------- */
-    generateRazoepay:(orderId,total)=>{
-        return new Promise((resolve,reject)=>{
-           var options ={
-            amount:total*100,
-            currency:"INR",
-            receipt:""+orderId
-           };
-           razorpayData.instance.orders.create(options,function(err,order){
-            console.log(order);
-            resolve(order)
-           });
-         
-        
-    })
+    generateRazoepay: (orderId, total) => {
+        return new Promise((resolve, reject) => {
+            var options = {
+                amount: total * 100,
+                currency: "INR",
+                receipt: "" + orderId
+            };
+            razorpayData.instance.orders.create(options, function (err, order) {
+                console.log(order);
+                resolve(order)
+            });
 
-},
-/* ---------------------- razorpay payment verification --------------------- */
-verifyPayment:(details)=>{
-    return new Promise((resolve,reject)=>{
-     const crypto = require('crypto');
-     let hmac = crypto.createHmac('sha256',razorpayData.key_secret)
 
-     hmac.update(details['payment[razorpay_order_id]']+'|'+details['payment[razorpay_payment_id]']);
-   hmac = hmac.digest('hex')
-   if(hmac == details['payment[razorpay_signature]']){
-    resolve()
-   }else{
-    reject()
-   }
-    })
-},
-/* ------------------------------ change status ----------------------------- */
-changePaymentStatus:(orderId)=>{
-   return new Promise((resolve,reject)=>{
-    db.get().collection(collection.ORDER_COLLECTION)
-    .updateOne({_id:ObjectID(orderId)},
-    {
-        $set:{
-            status:'placed'
-        }
-    }).then(()=>{
-        resolve()
-    })
-   }) 
-}
+        })
+
+    },
+    /* ---------------------- razorpay payment verification --------------------- */
+    verifyPayment: (details) => {
+        return new Promise((resolve, reject) => {
+            const crypto = require('crypto');
+            let hmac = crypto.createHmac('sha256', razorpayData.key_secret)
+
+            hmac.update(details['payment[razorpay_order_id]'] + '|' + details['payment[razorpay_payment_id]']);
+            hmac = hmac.digest('hex')
+            if (hmac == details['payment[razorpay_signature]']) {
+                resolve()
+            } else {
+                reject()
+            }
+        })
+    },
+
+    /* ----------------------------- paypal payment ----------------------------- */
+    generatePayPal: (orderId, totalPrice) => {
+        console.log('paypal working');
+        return new Promise((resolve, reject) => {
+            const create_payment_json = {
+                "intent": "sale",
+                "payer": {
+                    "payment_method": "paypal"
+                },
+                "redirect_urls": {
+                    return_url: "http://localhost:7000/orders",
+                    cancel_url: "http://localhost:7000/check-out"
+                },
+                "transactions": [
+                    {
+                        "item_list": {
+                            "items": [
+                                {
+                                    "name": "Red Sox Hat",
+                                    "sku": "001",
+                                    "price": totalPrice,
+                                    "currency": "USD",
+                                    "quantity": 1
+                                }
+                            ]
+                        },
+                        "amount": {
+                            "currency": "USD",
+                            "total": totalPrice
+                        },
+                        "description": "Hat for the best team ever"
+                    }
+                ]
+            };
+
+            paypal.payment.create(create_payment_json, function (error, payment) {
+                if (error) {
+                    console.log("paypal int. err stp ...4", error);
+                    throw error;
+
+                } else {
+                    console.log(payment, "****a");
+                    resolve(payment);
+                }
+            });
+        });
+    },
+    /* ------------------------------ change status ----------------------------- */
+    changePaymentStatus: (orderId) => {
+        return new Promise((resolve, reject) => {
+            db.get().collection(collection.ORDER_COLLECTION)
+                .updateOne({ _id: ObjectID(orderId) },
+                    {
+                        $set: {
+                            status: 'placed'
+                        }
+                    }).then(() => {
+                        resolve()
+                    })
+        })
+    },
+
+    /* ------------------------ products in category wise ----------------------- */
+
+    categoryWiseProductList: (catId) => {
+        console.log(catId, "category aanneee");
+        return new Promise(async (resolve, reject) => {
+            data = await db.get().collection(collection.PRODUCT_COLLECTION).find({ category: ObjectID(catId) }).toArray()
+            resolve(data)
+        })
+    },
+    /* ----------------------------- add-new-address ---------------------------- */
+
+    addNewAddress: (userId, addressData) => {
+
+        console.log(addressData);
+        return new Promise((resolve, reject) => {
+            // let address = {
+            //     firstName:addressData.firstName,
+            //     streetAddress:addressData.streetAddress,
+            //     city:addressData.city,
+            //     state:addressData.state,
+            //     zip:addressData.zip,
+            //     phone:addressData.phone,
+            //     email:addressData.email,
+            // }
+            // db.get().collection(collection.USER_COLLECTION)
+            // .updateOne({_id:ObjectID(userId)},
+            // {
+            //     $push:{address:{addressData}}
+            // }).then(()=>{
+
+            //     resolve({status:true})
+            // })
+            db.get().collection(collection.ADDRESS_COLLECTION)
+                .insertOne({ user: userId, address: addressData }).then(() => {
+
+                    resolve({ status: true })
+                })
+        })
+    },
+
+    /* -------------------- shoe user detail in user profile -------------------- */
+    viewUserDetails: (userId) => {
+        console.log(userId);
+        return new Promise(async (resolve, reject) => {
+            let dataa = await db.get().collection(collection.ADDRESS_COLLECTION).findOne({ user: userId })
+
+            resolve(dataa)
+            console.log(dataa);
+
+        })
+    },
+
+
+    /* ------------------------------ apply coupon ------------------------------ */
+    applyCoupon: (coupon, userId) => {
+        return new Promise(async (resolve, reject) => {
+            let today = new Date()
+
+            let coupData = await db.get().collection(collection.COUPON_COLLECTION)
+                .findOne({ code: coupon.coupon, status: true })
+            // {
+            //     $match: { code: coupon.coupon, status: true }
+            // },
+            // // {
+            // //     $match:{endingdate :{ $gte: today }}
+
+            // // },
+            // {
+            //     $project: { name: 1, code: 1, endingdate: 1, value: 1, status: 1 }
+            // }
+
+            let response = {}
+            // console.log(coupData, "okiuxsgdcvvc");
+            // console.log(coupData.endingdate,"varum");
+            if (coupData) {
+                let userused = await db.get().collection(collection.COUPON_COLLECTION).findOne({ code: coupon.coupon, User: { $in: [ObjectID(userId)] } })
+                if (userused) {
+                    response.used = true;
+                    resolve(response)
+                } else {
+                    console.log(today, "yes", coupData.endingdate);
+                    if (today <= coupData.endingdate) {
+                        db.get().collection(collection.COUPON_COLLECTION).updateOne({ code: coupon.coupon }, {
+                            $push: { User: ObjectID(userId) }
+                        }).then((response) => {
+                            db.get().collection(collection.CART_COLLECTION).updateOne({ user: ObjectID(userId) },
+                                { $set: { code: coupon.coupon } })
+                            response.a = coupData
+                            resolve(response)
+                        })
+
+                    } else {
+                        response.dateErr = true
+                        resolve(response)
+                    }
+                }
+            } else {
+                response.invalid = true
+                resolve(response)
+            }
+
+        })
+    }
+
 
 }

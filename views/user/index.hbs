@@ -183,11 +183,11 @@
                         <div class="col-lg-4 col-md-6 col-sm-9">
                             <div class="shoes-cat-item mb-50">
                                 <div class="thumb mb-30">
-                                    <a href="shop-sidebar.html"><img style="width:503px;height: 300px;" src="/imageUpload/{{this.image}}" alt=""></a>
+                                    <a href="/catWiseproducts/{{this._id}}"><img style="width:503px;height: 300px;" src="/imageUpload/{{this.image}}" alt=""></a>
                                 </div>
                                 <div class="content">
                                     <ul>
-                                        <li><a href="shop-sidebar.html">{{this.category}}</a></li>
+                                        <li><a href="/catWiseproducts/{{this._id}}">{{this.category}}</a></li>
                                        
                                     </ul>
                                 </div>
@@ -1798,32 +1798,32 @@
             <section class="shoes-banner-area">
                 <div class="container">
                     <div class="shoes-banner-active">
-                        <div class="shoes-banner-bg" data-background="img/bg/shoes-banner_bg.jpg">
+                        <div class="shoes-banner-bg" data-background="imageUpload/{{banner.[1].image}}">
                             <div class="row">
                                 <div class="col-12">
                                     <div class="shoes-banner-content">
-                                        <h6>Athletes Shoes</h6>
-                                        <h2>9 Best <span>Shoes for</span> Standing All Day Review 2020</h2>
+                                        <h6>{{banner.discription-1.[1]}}</h6>
+                                        <h2>9 Best <span>Shoes for</span> {{banner.discription-2.[1]}}</h2>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="shoes-banner-bg" data-background="img/bg/shoes-banner_bg.jpg">
+                        <div class="shoes-banner-bg" data-background="imageUpload/{{banner.[0].image}}">
                             <div class="row">
                                 <div class="col-12">
                                     <div class="shoes-banner-content">
-                                        <h6>Athletes Shoes</h6>
-                                        <h2>3 Best <span>Shoes for</span> Standing All Day Review 2021</h2>
+                                        <h6>{{banner.discription-1.[0]}}</h6>
+                                        <h2>3 Best <span>Shoes for</span> {{banner.discription-2.[0]}}</h2>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="shoes-banner-bg" data-background="img/bg/shoes-banner_bg.jpg">
+                        <div class="shoes-banner-bg" data-background="imageUpload/{{banner.[1].image}}">
                             <div class="row">
                                 <div class="col-12">
                                     <div class="shoes-banner-content">
-                                        <h6>Athletes Shoes</h6>
-                                        <h2>8 Best <span>Shoes for</span> Standing All Day Review 2021</h2>
+                                        <h6>{{banner.discription-1.[1]}}</h6>
+                                        <h2>8 Best <span>Shoes for</span> {{banner.discription-2.[1]}}</h2>
                                     </div>
                                 </div>
                             </div>

@@ -1,0 +1,94 @@
+<body class="fixed-left">
+
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+
+                    <h4 class="mt-0 header-title" style="text-align:center ;">List of BANNERS</h4>
+                    <a href="/admin/add-Banner">
+                        <div style="text-align: end; padding-bottom: 10px;"><button type="button"
+                                class="btn btn-outline-success btn-round waves-effect waves-light">Add
+                                Banner</button>
+                        </div>
+                    </a>
+
+                    <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap"
+                        style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                        <thead>
+                            <tr>
+                                <th>Banner Image</th>
+                                <th>Banner Name</th>
+                                <th>Discription 1</th>
+                                <th>Discription 2</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+
+
+                        <tbody>
+                            {{#each data}}
+                            <tr>
+                                <td><img style="width:70px;height: 70px;" src="/imageUpload/{{this.image}}" alt="">
+                                </td>
+                                <td class=" text-truncate" style="max-width: 150px;">{{this.banner}}</td>
+                                <td>{{this.discription-1}}</td>
+                                <td>{{this.discription-2}}</td>
+                               
+                                <td style="text-align:center ;">
+
+                                    <a href="/admin//{{this._id}}"><button type="button"
+                                            class="btn btn-outline-primary"><i
+                                                class="fa-solid fa-pen-to-square"></i>Edit</button></a>
+                                    <a  onclick="deleteBanner('{{this._id}}')"><button type="button" class="btn btn-outline-danger"><i
+                                                class="fa-solid fa-eraser"></i>Delete</button></a>
+
+                                </td>
+                            </tr>
+                            {{/each}}
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div> <!-- end col -->
+    </div> <!-- end row -->
+
+
+
+
+</body>
+<script>
+    function deleteBanner(banId){
+        console.log("i am working")
+      event.preventDefault()
+        swal({
+  title: "Are you sure?",
+  text: "Once deleted, you will not be able to recover this imaginary file!",
+  icon: "warning",
+  buttons: true,
+  dangerMode: true,
+})    
+.then((willDelete) => {
+  if (willDelete) {
+    $.ajax({
+        url:"/admin/delete-banner",
+        data:{
+            banner:banId
+        },
+        method:"post",
+        success:(response)=>{
+            
+           location.reload() 
+        }
+    })
+    swal("Poof! Your imaginary file has been deleted!", {
+      icon: "success",
+    });
+  } else {
+    swal("Your imaginary file is safe!");
+  }
+});
+    }
+</script>

@@ -33,7 +33,7 @@
 <main>
 
     <!-- breadcrumb-area -->
-    <section class="breadcrumb-area breadcrumb-bg" data-background="img/bg/breadcrumb_bg03.jpg">
+    <section class="breadcrumb-area breadcrumb-bg" data-background="img/bg/4639668.jpg">
         <div class="container">
             <div class="row">
                 <div class="col-12">
@@ -115,11 +115,14 @@
                                                 </form>
                                             </div>
                                         </td>
-                                     
-        
-                                     
-                                        <td class="product-subtotal " >₹<span id="a{{this.product._id}}">{{this.subTotal}}</span></td>
-                                        <td class="product-delete"><a role="button" class="btn" onclick="deleteProducts('{{this._id}}','{{this.product._id}}')"><i class="flaticon-trash"></i></a></td>
+
+
+
+                                        <td class="product-subtotal ">₹<span
+                                                id="a{{this.product._id}}">{{this.subTotal}}</span></td>
+                                        <td class="product-delete"><a role="button" class="btn"
+                                                onclick="deleteProducts('{{this._id}}','{{this.product._id}}')"><i
+                                                    class="flaticon-trash"></i></a></td>
 
                                     </tr>
                                     {{/each}}
@@ -148,24 +151,59 @@
                                 </tbody>
                             </table>
                         </div>
-                        <div class="shop-cart-bottom mt-20">
-                            <div class="cart-coupon">
-                                <form action="#">
-                                    <input type="text" placeholder="Enter Coupon Code...">
-                                    <button class="btn" style="display:flex ;">Apply Coupon</button>
-                                </form>
-                            </div>
-                            <div class="continue-shopping">
-                                <a href="shop.html" class="btn">update shopping</a>
-                            </div>
-                        </div>
+
                     </div>
                     <div class="cart-total pt-95">
                         <h3 class="title">CART TOTALS</h3>
                         <div class="shop-cart-widget">
-                            <form action="#">
+                            <div class="row">
+                                {{!-- <div class="col-md-4">
+                                    <div class="shop-cart-bottom mt-20">
+                                        <div class="cart-coupon">
+                                            <form action="#">
+                                                <input type="text" placeholder="Enter Coupon Code...">
+                                                <button class="btn" style="display:flex ;">Apply Coupon</button>
+                                            </form>
+                                        </div>
+
+                                    </div>
+                                </div> --}}
+                                <div class="col-md-8">
+                                    <form action="#">
+                                        <ul>
+                                            <li class="sub-total"><span>TOTAL</span><span
+                                                    id="subTotal">₹{{total}}</span>
+                                            </li>
+                                            {{!-- <li>
+                                                <span>SHIPPING</span>
+                                                <div class="shop-check-wrap">
+                                                    <div class="custom-control custom-checkbox">
+                                                        <input type="checkbox" class="custom-control-input"
+                                                            id="customCheck1">
+                                                        <label class="custom-control-label" for="customCheck1">FLAT
+                                                            RATE:
+                                                            $15</label>
+                                                    </div>
+                                                    <div class="custom-control custom-checkbox">
+                                                        <input type="checkbox" class="custom-control-input"
+                                                            id="customCheck2">
+                                                        <label class="custom-control-label" for="customCheck2">FREE
+                                                            SHIPPING</label>
+                                                    </div>
+                                                    <a href="#" class="calculate">Calculate shipping</a>
+                                                </div>
+                                            </li> --}}
+                                            {{!-- <li class="cart-total-amount"><span>TOTAL</span> <span class="amount">
+                                                    ₹{{total}}</span></li> --}}
+                                        </ul>
+                                        <a href="/check-out" class="btn">PROCEED TO CHECKOUT</a>
+                                    </form>
+                                </div>
+                            </div>
+                            {{!-- <form action="#">
                                 <ul>
-                                    <li class="sub-total"><span>SUBTOTAL</span><span id="subTotal">₹{{total}}</span></li>
+                                    <li class="sub-total"><span>SUBTOTAL</span><span id="subTotal">₹{{total}}</span>
+                                    </li>
                                     <li>
                                         <span>SHIPPING</span>
                                         <div class="shop-check-wrap">
@@ -181,12 +219,12 @@
                                             </div>
                                             <a href="#" class="calculate">Calculate shipping</a>
                                         </div>
-                                    {{!-- </li>
+                                    </li>
                                     <li class="cart-total-amount"><span>TOTAL</span> <span class="amount">$
-                                          ₹{{total}}</span></li>
-                                </ul> --}}
+                                            ₹{{total}}</span></li>
+                                </ul>
                                 <a href="/check-out" class="btn">PROCEED TO CHECKOUT</a>
-                            </form>
+                            </form> --}}
                         </div>
                     </div>
                 </div>
@@ -197,4 +235,3 @@
 
 </main>
 <!-- main-area-end -->
-

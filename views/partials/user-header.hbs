@@ -18,12 +18,14 @@
                                     <li class="has--mega--menu"><a href="/allproducts">Shop</a>
                                         <ul class="mega-menu">
                                             <li class="mega-menu-wrap">
+                                                
                                                 {{#each show}}
+
                                                 <ul class="mega-menu-col sub-cat-post">
                                                     <li>
                                                         <a href="shop-sidebar.html">
                                                             <img style="height:300px ; width: 300px;" src="/imageUpload/{{this.image}}" alt="">
-                                                            <span class="btn">{{this.category}} </span>
+                                                         <a href="/catWiseproducts/{{this._id}}"><span class="btn" >{{this.category}} </span></a>   
                                                         </a>
                                                     </li>
                                                 </ul>
@@ -100,14 +102,14 @@
                                     {{!-- <li class="header-profile"><a href="#"><i
                                                 class="flaticon-user-profile"></i></a> --}}
                                         {{!-- est --}}
-                                    <li class="header-shop-cart header-profile"><a href="#" class="p-0"><i
+                                    <li class="header-shop-cart header-profile"><a href="/User-Details" class="p-0"><i
                                                 class="flaticon-user-profile"></i></a>
                                         <ul class="minicart">
                                             
                                             <li>
                                                 <div class="checkout-link">
                                                     {{#if userName}}
-                                                    <a href="#">{{userName.name}}</a>
+                                                    <a href="/User-Details">{{userName.name}}</a>
                                                     {{else}}
                                                     <a href="/user_signup">Create account</a>
                                                     {{/if}}
@@ -469,14 +471,14 @@
                                                 </i>
                                                 </a>
                                                 </li> --}}
-                                                <li class="header-shop-cart header-profile"><a href="#" class="p-0"><i
+                                                <li class="header-shop-cart header-profile"><a href="/User-Details" class="p-0"><i
                                                 class="flaticon-user-profile"></i></a>
                                         <ul class="minicart">
                                             
                                             <li>
                                                 <div class="checkout-link">
                                                     {{#if userName}}
-                                                    <a href="#">{{userName.name}}</a>
+                                                    <a href="/User-Details">{{userName.name}}</a>
                                                     {{else}}
                                                     <a href="/user_signup">Create account</a>
                                                     {{/if}}

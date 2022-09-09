@@ -1,0 +1,200 @@
+<!-- preloader  -->
+<div id="preloader">
+    <div id="ctn-preloader" class="ctn-preloader">
+        <div class="animation-preloader">
+            <div class="spinner"></div>
+        </div>
+        <div class="loader">
+            <div class="row">
+                <div class="col-3 loader-section section-left">
+                    <div class="bg"></div>
+                </div>
+                <div class="col-3 loader-section section-left">
+                    <div class="bg"></div>
+                </div>
+                <div class="col-3 loader-section section-right">
+                    <div class="bg"></div>
+                </div>
+                <div class="col-3 loader-section section-right">
+                    <div class="bg"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- preloader end -->
+
+<!-- Scroll-top -->
+<button class="scroll-top scroll-to-target" data-target="html">
+    <i class="fas fa-angle-up"></i>
+</button>
+<!-- Scroll-top-end-->
+
+<!-- main-area -->
+<main>
+
+    <!-- breadcrumb-area -->
+    <section class="breadcrumb-area breadcrumb-bg" data-background="img/bg/breadcrumb_bg03.jpg">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="breadcrumb-content">
+                        <h2>Cart Page</h2>
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">Cart</li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- breadcrumb-area-end -->
+
+    <!-- cart-area -->
+    <div class="cart-area pt-100 pb-100">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="cart-wrapper">
+                        <div class="table-responsive">
+                            <table class="table mb-0">
+                                <thead>
+                                    <tr>
+                                        <th class="product-thumbnail"></th>
+                                        <th class="product-name">Product</th>
+                                        <th class="product-price">Price</th>
+                                        <th class="product-quantity">QUANTITY</th>
+                                        <th class="product-subtotal">SUBTOTAL</th>
+                                        <th class="product-delete"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {{#each products}}
+
+                                    <tr>
+                                        {{!-- {{#each this.product}} --}}
+                                        <td class="product-thumbnail"><a href="shop-details.html"><img
+                                                    src="/imageUpload/{{this.product.image.[0]}}" alt=""></a></td>
+                                        <td class="product-name">
+                                            <h4><a href="shop-details.html">{{this.product.name}}</a></h4>
+                                        </td>
+                                        <td class="product-price">${{this.product.price}}</td>
+                                        {{!-- {{/each}} --}}
+                                        <td class="product-quantity">
+                                            <div class="cart-plus-minus">
+                                                <form action="#" class="num-block">
+                                                    <div class="d-flex">
+
+                                                        <button
+                                                            style="background: #eef1f2; width: 30px;text-align: center;z-index: 1; padding: 10px;"
+                                                            onclick="changeQuantity('{{this._id}}','{{this.product._id}}','{{../userName._id}}',-1)">-</button>
+
+                                                        {{!-- <span class="num" class="numfield"
+                                                            style="padding-top: 8px; width: 100px;">01</span> --}}
+                                                        <input type="text" style="padding: 0; width: 100px;"
+                                                            value="{{this.quantity}}" readonly=""
+                                                            id="{{this.product._id}}">
+                                                        <button
+                                                            style="background: #eef1f2; width: 30px;text-align: center;z-index: 1; padding: 10px;"
+                                                            onclick="changeQuantity('{{this._id}}','{{this.product._id}}','{{../userName._id}}',1)">+</button>
+                                                    </div>
+
+                                                    {{!-- <div class=""
+                                                        style="position: absolute;right: 1px;top: 1px;bottom: 1px;background: #eef1f2;width: 30px;text-align: center;z-index: 1;">
+                                                        <span class=""
+                                                            style=" position: absolute; cursor: pointer;user-select: none;height: 50%; left: 0;top: 0;right: 0;"><img
+                                                                src="img/icon/plus.png" alt=""
+                                                                style="max-width: 10px;"></span>
+                                                        <span class=""
+                                                            style=" position: absolute; cursor: pointer;user-select: none;height: 50%; left: 0;bottom: 0;right: 0;"><img
+                                                                src="img/icon/minus.png" alt=""
+                                                                style="max-width: 10px;"></span>
+                                                    </div> --}}
+                                                </form>
+                                            </div>
+                                        </td>
+                                     
+        
+                                     
+                                        <td class="product-subtotal " >₹<span id="a{{this.product._id}}">{{this.subTotal}}</span></td>
+                                        <td class="product-delete"><a role="button" class="btn" onclick="deleteProducts('{{this._id}}','{{this.product._id}}')"><i class="flaticon-trash"></i></a></td>
+
+                                    </tr>
+                                    {{/each}}
+                                    {{!-- <tr>
+                                        <td class="product-thumbnail"><a href="shop-details.html"><img
+                                                    src="img/product/cart_img02.jpg" alt=""></a></td>
+                                        <td class="product-name">
+                                            <h4><a href="shop-details.html">Travelling Bags</a></h4>
+                                        </td>
+                                        <td class="product-price">$ 37.00</td>
+                                        <td class="product-quantity">
+                                            <div class="cart-plus-minus">
+                                                <form action="#" class="num-block">
+                                                    <input type="text" class="in-num" value="1" readonly="">
+                                                    <div class="qtybutton-box">
+                                                        <span class="plus"><img src="img/icon/plus.png" alt=""></span>
+                                                        <span class="minus dis"><img src="img/icon/minus.png"
+                                                                alt=""></span>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </td>
+                                        <td class="product-subtotal"><span>$ 74.00</span></td>
+                                        <td class="product-delete"><a href="#"><i class="flaticon-trash"></i></a></td>
+                                    </tr> --}}
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="shop-cart-bottom mt-20">
+                            <div class="cart-coupon">
+                                <form action="#">
+                                    <input type="text" placeholder="Enter Coupon Code...">
+                                    <button class="btn" style="display:flex ;">Apply Coupon</button>
+                                </form>
+                            </div>
+                            <div class="continue-shopping">
+                                <a href="shop.html" class="btn">update shopping</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="cart-total pt-95">
+                        <h3 class="title">CART TOTALS</h3>
+                        <div class="shop-cart-widget">
+                            <form action="#">
+                                <ul>
+                                    <li class="sub-total"><span>SUBTOTAL</span><span id="subTotal">₹{{total}}</span></li>
+                                    <li>
+                                        <span>SHIPPING</span>
+                                        <div class="shop-check-wrap">
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input" id="customCheck1">
+                                                <label class="custom-control-label" for="customCheck1">FLAT RATE:
+                                                    $15</label>
+                                            </div>
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input" id="customCheck2">
+                                                <label class="custom-control-label" for="customCheck2">FREE
+                                                    SHIPPING</label>
+                                            </div>
+                                            <a href="#" class="calculate">Calculate shipping</a>
+                                        </div>
+                                    {{!-- </li>
+                                    <li class="cart-total-amount"><span>TOTAL</span> <span class="amount">$
+                                          ₹{{total}}</span></li>
+                                </ul> --}}
+                                <a href="/check-out" class="btn">PROCEED TO CHECKOUT</a>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- cart-area-end -->
+
+</main>
+<!-- main-area-end -->
