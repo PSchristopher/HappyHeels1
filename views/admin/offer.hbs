@@ -1,0 +1,39 @@
+<div class="layout-page">
+    <div class="table-top d-flex justify-content-center align-items-center" style="margin-top: 30px;min-height: 25rem;
+        width: -webkit-fill-available; background-image: url('/images/bg-registration-form-2.jpg');">
+
+        <div style="width: 20rem;">
+
+
+            {{!-- form start --}}
+
+            <h2>Add Category Offer</h2>
+            <form action="/admin/add-newoffers" method="post">
+
+                <!-- categorie name input -->
+
+                <div class="form-outline mb-4">
+                    <label class="form-label" for="form2Example1">Category</label required>
+
+                    <select name="category" id="form2Example1" class="form-control">
+                        <option value="" selected hidden ></option>
+                        {{#each categori}}
+                        <option value="{{this._id}}" >{{this.category}}</option>
+                        {{/each}}
+                    </select>
+                </div>
+
+                <div class="form-outline mb-4 ">
+                    <label class="form-label" for="form2Example1">Offer</label>
+                    <input type="number" name="Offer"  id="form2Example1"
+                        placeholder="In percentage" class="form-control" />
+                </div>
+
+
+                <!-- Submit button -->
+                <button type="submit" class="btn btn-primary btn-block mb-4">Add
+                    Offer</button>
+            </form>
+        </div>
+    </div>
+</div>

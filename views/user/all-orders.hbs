@@ -1,180 +1,183 @@
 <!-- preloader  -->
 <div id="preloader">
-    <div id="ctn-preloader" class="ctn-preloader">
-        <div class="animation-preloader">
-            <div class="spinner"></div>
-        </div>
-        <div class="loader">
-            <div class="row">
-                <div class="col-3 loader-section section-left">
-                    <div class="bg"></div>
-                </div>
-                <div class="col-3 loader-section section-left">
-                    <div class="bg"></div>
-                </div>
-                <div class="col-3 loader-section section-right">
-                    <div class="bg"></div>
-                </div>
-                <div class="col-3 loader-section section-right">
-                    <div class="bg"></div>
-                </div>
-            </div>
-        </div>
+  <div id="ctn-preloader" class="ctn-preloader">
+    <div class="animation-preloader">
+      <div class="spinner"></div>
     </div>
+    <div class="loader">
+      <div class="row">
+        <div class="col-3 loader-section section-left">
+          <div class="bg"></div>
+        </div>
+        <div class="col-3 loader-section section-left">
+          <div class="bg"></div>
+        </div>
+        <div class="col-3 loader-section section-right">
+          <div class="bg"></div>
+        </div>
+        <div class="col-3 loader-section section-right">
+          <div class="bg"></div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 <!-- preloader  -->
 
 <!-- Scroll-top -->
 <button class="scroll-top scroll-to-target" data-target="html">
-    <i class="fas fa-angle-up"></i>
+  <i class="fas fa-angle-up"></i>
 </button>
 <!-- Scroll-top-end-->
 
- <!-- breadcrumb-area -->
-    <section class="breadcrumb-area breadcrumb-bg" data-background="img/bg/breadcrumb_bg03.jpg">
-        <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <div class="breadcrumb-content">
-                        <h2>ORDERS Page</h2>
-                        <nav aria-label="breadcrumb">
-                            <ol class="breadcrumb">
-                                <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-                                <li class="breadcrumb-item active" aria-current="page">Cart</li>
-                            </ol>
-                        </nav>
-                    </div>
-                </div>
-            </div>
+<!-- breadcrumb-area -->
+<section class="breadcrumb-area breadcrumb-bg" data-background="img/bg/breadcrumb_bg03.jpg">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <div class="breadcrumb-content">
+          <h2>ORDERS Page</h2>
+          <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+              <li class="breadcrumb-item active" aria-current="page">Cart</li>
+            </ol>
+          </nav>
         </div>
-    </section>
-    <!-- breadcrumb-area-end -->
+      </div>
+    </div>
+  </div>
+</section>
+<!-- breadcrumb-area-end -->
+<div class="class-container">
+  <table class="table align-middle mb-0 bg-white">
+    <thead class="bg-light">
 
-    <table class="table align-middle mb-0 bg-white">
-  <thead class="bg-light">
-    <tr>
-      <th>DATE</th>
-      <th>ORDER ID</th>
-      <th>PAYMENT METHOD</th>
-      <th>AMOUNT</th>
-      <th>STATUS</th>
-      <th>VIEW PRODUCTS</th>
-      <th>Actions</th>
-    </tr>
-  </thead>
-  <tbody>
-    {{#each orders}}
-    <tr>
+      <tr>
+        <th>DATE</th>
+        <th>ORDER ID</th>
+        <th>PAYMENT METHOD</th>
+        <th>AMOUNT</th>
+        <th>STATUS</th>
+        <th>VIEW PRODUCTS</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each orders}}
+      <tr>
 
-      <td>
-        <span>{{this.date}}</span>
-      </td>
-      <td>
-        <p class="fw-normal mb-1">{{this._id}}</p>
-       
-      </td>
-      <td>{{this.paymentMethod}}</td>
-      <td>{{this.totalAmount}}</td>
-      <td>
-        
-         {{#if_eq this.status "placed" }}
-        <span class="badge badge-success rounded-pill d-inline">{{this.status}}</span>
-           {{/if_eq}}
-      
-         {{#if_eq this.status "pending" }}
-        <span class="badge badge-info rounded-pill d-inline">{{this.status}}</span>
-         {{/if_eq}}
+        <td>
+          <span>{{this.date}}</span>
+        </td>
+        <td>
+          <p class="fw-normal mb-1">{{this._id}}</p>
+
+        </td>
+        <td>{{this.paymentMethod}}</td>
+        <td>{{this.totalAmount}}</td>
+        <td>
+
+          {{!-- {{#if_eq this.status "placed" }}
+          <span class="badge badge-success rounded-pill d-inline">{{this.status}}</span>
+          {{/if_eq}}
+
+          {{#if_eq this.status "pending" }}
+          <span class="badge badge-info rounded-pill d-inline">{{this.status}}</span>
+          {{/if_eq}}
 
           {{#if_eq this.status "cancelled" }}
-        <span class="badge badge-danger rounded-pill d-inline">{{this.status}}</span>
-         {{/if_eq}}
-         {{#if_eq this.status "out for delivery" }}
-        <span class="badge badge-primary rounded-pill d-inline">{{this.status}}</span>
-           {{/if_eq}}
-            {{#if_eq this.status "Delivered" }}
-        <span class="badge badge-secondary rounded-pill d-inline">{{this.status}}</span>
-           {{/if_eq}}
-         
-       
-      </td>
-      <td>
-        <a href="/orderdetail/{{this._id}}" type="button" class="btn btn-link btn-sm btn-rounded">
-          VIEW
-        </a>
+          <span class="badge badge-danger rounded-pill d-inline">{{this.status}}</span>
+          {{/if_eq}}
+          {{#if_eq this.status "out for delivery" }}
+          <span class="badge badge-primary rounded-pill d-inline">{{this.status}}</span>
+          {{/if_eq}}
+          {{#if_eq this.status "Delivered" }}
+          <span class="badge badge-secondary rounded-pill d-inline">{{this.status}}</span>
+          {{/if_eq}}
+          --}}
 
-      </td>
-      <td> <a class="btn" role="button" href="/order-cancel/{{this._id}}"><span class="badge badge-warning rounded-pill d-inline">CANCEL</span></a></td>
-    </tr>
-    {{!-- <tr>
-      <td>
-        <div class="d-flex align-items-center">
-          <img
-              src="https://mdbootstrap.com/img/new/avatars/6.jpg"
-              class="rounded-circle"
-              alt=""
-              style="width: 45px; height: 45px"
-              />
-          <div class="ms-3">
-            <p class="fw-bold mb-1">Alex Ray</p>
-            <p class="text-muted mb-0">alex.ray@gmail.com</p>
-          </div>
-        </div>
-      </td>
-      <td>
-        <p class="fw-normal mb-1">Consultant</p>
-        <p class="text-muted mb-0">Finance</p>
-      </td>
-      <td>
-        <span class="badge badge-primary rounded-pill d-inline"
-              >Onboarding</span
-          >
-      </td>
-      <td>Junior</td>
-      <td>
-        <button
-                type="button"
-                class="btn btn-link btn-rounded btn-sm fw-bold"
-                data-mdb-ripple-color="dark"
-                >
-          Edit
-        </button>
-      </td>
-    </tr> --}}
-    {{!-- <tr>
-      <td>
-        <div class="d-flex align-items-center">
-          <img
-              src="https://mdbootstrap.com/img/new/avatars/7.jpg"
-              class="rounded-circle"
-              alt=""
-              style="width: 45px; height: 45px"
-              />
-          <div class="ms-3">
-            <p class="fw-bold mb-1">Kate Hunington</p>
-            <p class="text-muted mb-0">kate.hunington@gmail.com</p>
-          </div>
-        </div>
-      </td>
-      <td>
-        <p class="fw-normal mb-1">Designer</p>
-        <p class="text-muted mb-0">UI/UX</p>
-      </td>
-      <td>
-        <span class="badge badge-warning rounded-pill d-inline">Awaiting</span>
-      </td>
-      <td>Senior</td>
-      <td>
-        <button
-                type="button"
-                class="btn btn-link btn-rounded btn-sm fw-bold"
-                data-mdb-ripple-color="dark"
-                >
-          Edit
-        </button>
-      </td>
-    </tr> --}}
+          {{#if (eq this.status "placed" )}}
+          <span class="badge badge-success rounded-pill d-inline">{{this.status}}</span>
+          {{else if (eq this.status "pending")}}
+          <span class="badge badge-info rounded-pill d-inline">{{this.status}}</span>
+          {{else if (eq this.status "cancelled")}}
+          <span class="badge badge-danger rounded-pill d-inline" id="inner">{{this.status}}</span>
+          {{else if (eq this.status "out for delivery")}}
+          <span class="badge badge-primary rounded-pill d-inline">{{this.status}}</span>
+          {{else if (eq this.status "Returned")}}
+          <span class="badge badge-warning rounded-pill d-inline">{{this.status}}</span>
+          {{else}}
+          <span class="badge badge-secondary rounded-pill d-inline">{{this.status}}</span>
+          {{/if}}
 
-    {{/each}}
-  </tbody>
-</table>
+        </td>
+        <td>
+          <a href="/orderdetail/{{this._id}}" type="button" class="btn btn-link btn-sm btn-rounded">
+            VIEW
+          </a>
 
+        </td>
+        <td>
+
+          {{#if (eq this.status "Delivered" )}}
+          {{!-- <a class="btn" role="button" href="/order-return/{{this._id}}"><span
+              class="badge badge-primary rounded-pill d-inline">RETURN</span></a> --}}
+          <p href="/order-return/{{this._id}}"></p>
+          <a class="btn" role="button" onclick="returnOrder('{{this._id}}','{{this.totalAmount}}')"><span
+              class="badge badge-primary rounded-pill d-inline">RETURN</span></a>
+          {{else if (eq this.status "Returned")}}
+          <p>Order Returned</p>
+
+          {{else if (eq this.status "cancelled")}}
+          <p>Order Cancelled</p>
+          {{else}}
+          {{!-- <a class="btn" role="button" href="/order-cancel/{{this._id}}"><span --}} <a class="btn" role="button"
+              onclick="orderCancel('{{this._id}}')"><span
+                class="badge badge-warning rounded-pill d-inline">CANCEL</span></a>
+          {{/if}}
+        </td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+</div>
+
+<script>
+  function returnOrder(orderId, Amount) {
+    $.ajax({
+      url: '/order-return',
+      method: 'post',
+      data: {
+        orderId,
+        Amount
+      },
+      success: (response) => {
+        console.log(response, "ojhg")
+
+      }
+    })
+  }
+
+  function orderCancel(orderId) {
+    swal({
+      title: "Are you sure?",
+      text: "Once cancelled, you will not be able to get this product anymore!",
+      icon: "warning",
+      buttons: ["cancel", "ok"],
+      dangerMode: 'ok',
+    }).then((willCancel) => {
+      if (willCancel) {
+
+        $.ajax({
+          url: '/order-cancel/' + orderId,
+          method: 'post',
+          success: (response) => {
+            location.reload();
+          }
+        })
+      }
+    })
+  }
+
+</script>

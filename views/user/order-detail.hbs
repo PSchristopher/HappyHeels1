@@ -63,7 +63,7 @@
           </div>
           <div class="card-body p-4">
             <div class="d-flex justify-content-between align-items-center mb-4">
-            <a href="/order-cancel/{{this._id}}" type="button" class="btn btn-warning"><p class="lead fw-normal mb-0" style="color: #a8729a;">Cancel</p></a>  
+            {{!-- <a href="/order-cancel/{{this._id}}" type="button" class="btn btn-warning"><p class="lead fw-normal mb-0" style="color: #a8729a;">Cancel</p></a>   --}}
               <p class="small text-muted mb-0">Order ID : {{order._id}}</p>
             </div>
             <div class="card shadow-0 border mb-4">
@@ -77,18 +77,19 @@
                   <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
                     <p class="text-muted mb-0">{{this.product.name}}</p>
                   </div>
-                  <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
-                    <p class="text-muted mb-0 small">White</p>
-                  </div>
-                  <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
-                    <p class="text-muted mb-0 small">Capacity: 64GB</p>
-                  </div>
+                  
+                  
                   <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
                     <p class="text-muted mb-0 small">Qty: {{this.quantity}}</p>
                   </div>
                   <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
-                    <p class="text-muted mb-0 small">₹{{this.product.price}}</p>
+                  <p class="text-muted mb-0 small">Price:   ₹{{this.product.price}}</p>
                   </div>
+
+                   <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                 <del><p class="text-muted mb-0 small">Price:   ₹{{this.product.originalPrice}}</p></del> 
+                  </div>
+                  
                 </div>
                 <hr class="mb-4" style="background-color: #e0e0e0; opacity: 1;">
                 <div class="row d-flex align-items-center">
@@ -152,12 +153,11 @@
                 </div>
               </div>
             </div> --}}
-
-            <div class="d-flex justify-content-between pt-2">
+<div class="d-flex justify-content-between pt-2">
               <p class="fw-bold mb-0">Delivery Details</p>
               <p class="text-muted mb-0"><span class="fw-bold me-4">Total</span> ₹{{order.totalAmount}}</p>
             </div>
-
+          
             <div class="d-flex justify-content-between pt-2">
               <p class="text-muted mb-0">StreetAddress : {{order.deliverDetails.firstName}}</p>
               {{!-- <p class="text-muted mb-0"><span class="fw-bold me-4">Discount</span> $19.00</p> --}}

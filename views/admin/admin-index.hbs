@@ -554,7 +554,7 @@
  /* ----------------------------------- /2nd chart/ ----------------------------------- */
 
  const labels1 = [
- {{#each value}} '{{_id}}',{{/each}}
+ {{#each categorySale}} '{{_id}}',{{/each}}
     
   ];
 
@@ -565,7 +565,7 @@
       backgroundColor: ['rgba(140, 122, 230,1.0)','rgba(52, 152, 219,1.0)','rgba(245, 205, 121,1.0)'],
       hoverBackgroundColor:[ 'rgb(255, 99, 132)','rgb(255, 205, 86)','rgb(54, 162, 235)'],
       borderColor: 'rgba(44, 58, 71,1.0)',
-      data: [ {{#each value}}{{totalAmount}},{{/each}}]
+      data: [ {{#each categorySale}}{{totalAmount}},{{/each}}]
     }]
   };
 

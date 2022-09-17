@@ -75,10 +75,10 @@
 
                                     <tr>
                                         {{!-- {{#each this.product}} --}}
-                                        <td class="product-thumbnail"><a href="shop-details.html"><img
+                                        <td class="product-thumbnail"><a href=""><img
                                                     src="/imageUpload/{{this.product.image.[0]}}" alt=""></a></td>
                                         <td class="product-name">
-                                            <h4><a href="shop-details.html">{{this.product.name}}</a></h4>
+                                            <h4><a href="">{{this.product.name}}</a></h4>
                                         </td>
                                         <td class="product-price">${{this.product.price}}</td>
                                         {{!-- {{/each}} --}}
@@ -153,9 +153,9 @@
                         </div>
 
                     </div>
-                    <div class="cart-total pt-95">
+                    <div class="cart-total pt-35">
                         <h3 class="title">CART TOTALS</h3>
-                        <div class="shop-cart-widget">
+                        <div class="shop-cart-widget py-4">
                             <div class="row">
                                 {{!-- <div class="col-md-4">
                                     <div class="shop-cart-bottom mt-20">
@@ -168,37 +168,19 @@
 
                                     </div>
                                 </div> --}}
-                                <div class="col-md-8">
-                                    <form action="#">
+                                <div class="col-md-6 pt-3">
                                         <ul>
-                                            <li class="sub-total"><span>TOTAL</span><span
-                                                    id="subTotal">₹{{total}}</span>
+                                            <li class="sub-total font-weight-bold" style="font-size: xx-large;color: black;"><span>TOTAL</span><span
+                                                    id="subTotal">       ₹{{total}}</span>
                                             </li>
-                                            {{!-- <li>
-                                                <span>SHIPPING</span>
-                                                <div class="shop-check-wrap">
-                                                    <div class="custom-control custom-checkbox">
-                                                        <input type="checkbox" class="custom-control-input"
-                                                            id="customCheck1">
-                                                        <label class="custom-control-label" for="customCheck1">FLAT
-                                                            RATE:
-                                                            $15</label>
-                                                    </div>
-                                                    <div class="custom-control custom-checkbox">
-                                                        <input type="checkbox" class="custom-control-input"
-                                                            id="customCheck2">
-                                                        <label class="custom-control-label" for="customCheck2">FREE
-                                                            SHIPPING</label>
-                                                    </div>
-                                                    <a href="#" class="calculate">Calculate shipping</a>
-                                                </div>
-                                            </li> --}}
-                                            {{!-- <li class="cart-total-amount"><span>TOTAL</span> <span class="amount">
-                                                    ₹{{total}}</span></li> --}}
                                         </ul>
-                                        <a href="/check-out" class="btn">PROCEED TO CHECKOUT</a>
-                                    </form>
                                 </div>
+                                 <div class="col-md-6">
+                                    <div class="ml-auto" style="width: fit-content; ">
+                                        <a href="/check-out" class="btn">PROCEED TO CHECKOUT</a>
+                                    </div>
+                                </div>
+                                
                             </div>
                             {{!-- <form action="#">
                                 <ul>

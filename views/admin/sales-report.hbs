@@ -1,25 +1,62 @@
-
-
 <div style="padding-top: 20px; display: flex;justify-content: center;">
     <h2>SALES REPORT</h2>
 </div>
-    <form action="/admin/sales-report" method="post">
-<div class="row pt-5">
+<form action="/admin/sales-report" method="post">
+    <div class="row pt-5">
         <div class="col-4 ">
             <label for="">From date</label>
             {{!-- <input type="date" class="form-control" name="from" placeholder="Start Date" /> --}}
-             <input type="text" class="form-control" name="from" placeholder="Enter Your Starting Date" id="mdate">
+            <input type="text" class="form-control" name="from" placeholder="Enter Your Starting Date" id="mdate">
 
         </div>
         <div class="col-4">
             <label for="">TILL date</label>
             {{!-- <input type="date" class="form-control" name="to" placeholder="End Date" /> --}}
-             <input type="text" class="form-control" name="to" placeholder="Enter Your Ending Date" id="mdates">
+            <input type="text" class="form-control" name="to" placeholder="Enter Your Ending Date" id="mdates">
         </div>
         <div class="col-4">
             <h5><button type="submit">View</button></h5>
         </div>
+    </div>
+</form>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap"
+                    style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                    <thead>
+                        <tr>
+                            <td>_id</td>
+                            <th>Name</th>
+                            <th>Product</th>
+                            <th>Quantity</th>
+                            <th>Amount</th>
+                            <th>Payment Method</th>
+                            <th>Coustomer Mobile</th>
+                            <th>Order Date</th>
+                        </tr>
+                    </thead>
+
+
+                    <tbody>
+                        {{#each data}}
+                        <tr>
+                            <td>{{this._id}}</td>
+                            <td>{{this.customer}}</td>
+                            <td>{{this.productName}}</td>
+                            <td>{{this.quantity}}</td>
+                            <td>{{this.totalAmount}}</td>
+                            <td>{{this.paymentMethod}}</td>
+                            <td>{{this.mobile}}</td>
+                            <td>{{this.date}}</td>
+                        </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div> <!-- end col -->
 </div>
-    </form>
-    
-    

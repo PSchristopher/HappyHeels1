@@ -18,12 +18,21 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
 var Hbs=hbs.create({});
 
-Hbs.handlebars.registerHelper('if_eq', function(a, b, opts) {
-  if(a == b) // Or === depending on your needs
-      return opts.fn(this);
-  else
-      return opts.inverse(this);
+// Hbs.handlebars.registerHelper('if_eq', function(a, b, opts) {
+//   if(a == b) // Or === depending on your needs
+//       return opts.fn(this);
+//   else
+//       return opts.inverse(this);
+// });
+
+Hbs.handlebars.registerHelper('eq', function () {
+  const args = Array.prototype.slice.call(arguments, 0, -1);
+  return args.every(function (expression) {
+      return args[0] === expression;
+  });
 });
+      
+
 app.engine('hbs',hbs.engine({
   extname:'hbs',defaultLayout:'layout',layoutsDir:__dirname+'/views/layouts/',partialsDir:__dirname+'/views/partials/',helpers: {
     inc: function (value, options) {
@@ -36,7 +45,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(session({secret:"Key",cookie:{maxAge:600000}}))
+const maxAge =24 * 60 * 60 * 1000;
+app.use(session({secret:"Key",cookie:{maxAge:maxAge}}))
 // app.use(fileUpload())
 app.use((req, res, next) => {
   if (!req.user) {
