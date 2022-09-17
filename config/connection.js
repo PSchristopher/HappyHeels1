@@ -4,7 +4,8 @@ const state={
 }
 
 module.exports.connect=function(done){
-    const url='mongodb://localhost:27017'
+    const url = "mongodb+srv://Christopher:christo@cluster0.akadhea.mongodb.net/?retryWrites=true&w=majority"
+    // const url='mongodb://localhost:27017'
     const dbname='ecommerce'
 
 
