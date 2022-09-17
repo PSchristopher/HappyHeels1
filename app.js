@@ -46,7 +46,8 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 const maxAge =24 * 60 * 60 * 1000;
-app.use(session({secret:"Key",cookie:{maxAge:maxAge}}))
+app.use(session({secret:"Key",cookie:{maxAge:maxAge},resave: false,
+saveUninitialized: true }))
 // app.use(fileUpload())
 app.use((req, res, next) => {
   if (!req.user) {
