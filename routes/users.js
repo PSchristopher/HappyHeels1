@@ -598,4 +598,9 @@ router.get('/error', (req, res) => {
   res.render('error')
 })
 
+
+/* -------------------------------- checking -------------------------------- */
+console.log("abcdefghi")
+
+
 module.exports = router;
