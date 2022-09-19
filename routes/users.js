@@ -114,6 +114,7 @@ router.get('/otp_login', (req, res) => {
 
 let userData
 router.post('/otp_login', (req, res) => {
+  console.log("req.body",req.body);
   userhelpers.otplogin(req.body).then((response) => {
     if (response.status) {
       userData = response.user
@@ -135,6 +136,7 @@ router.get('/user_otp', (req, res) => {
 /* ------------------------------ otp validate ------------------------------ */
 
 router.post('/user_otp', (req, res) => {
+  
   userhelpers.otp(req.body, userData).then((response) => {
     console.log(response, 'response');
     if (response.status) {

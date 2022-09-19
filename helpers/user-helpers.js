@@ -96,10 +96,12 @@ module.exports = {
                     }).then((data) => {
 
                     })
+                    
                 resolve(response)
             } else {
                 response.status = false
                 response.message = "Entered number is not registered"
+            
                 resolve(response)
             }
         })
@@ -107,6 +109,7 @@ module.exports = {
 
     /* ----------------------------- otp validation ----------------------------- */
     otp: (otpData, userData) => {
+        console.log(userData,"abd");
         return new Promise((resolve, reject) => {
             client.verify.services(ottp.serviceID).verificationChecks
                 .create({
