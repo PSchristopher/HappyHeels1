@@ -393,6 +393,7 @@
                     document.getElementById('finalPrice').innerHTML = response.amount
                     document.getElementById('walletBalance').innerHTML = response.wallet
                     document.getElementById('cod').hidden = true
+                    document.getElementById('wallet').hidden = true
                     if (response.amount == 0) {
                         document.getElementById('online').hidden = true
                         document.getElementById('wallet').hidden = false

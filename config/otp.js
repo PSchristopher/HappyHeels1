@@ -1,8 +1,8 @@
 module.exports={
 
-    accountSID : process.env.ACCOUNTSID,
+    accountSID : process.env.ACCOUNT_SID,
 
-    authToken :process.env.AUTHTOKEN,
+    authToken :process.env.AUTH_TOKEN,
 
-    serviceID :process.env.SERVICEID
+    serviceID :process.env.SERVICE_ID
 }
