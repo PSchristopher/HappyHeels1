@@ -35,7 +35,7 @@ Hey, check out the Live-App, just visit https://happyheels.cf
 Clone the project
 
 ```bash
-  git clone https://github.com/MuhammedJasimk/newkick
+  git clone https://github.com/PSchristopher/HappyHeels1
 ```
 
 Install dependencies
